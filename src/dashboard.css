@@ -1,0 +1,29 @@
+body {
+  background-color: #f0f2f5;
+}
+
+.pane {
+  padding: 5px 15px;
+  background: #fff;
+}
+  [data-theme="dark"] .pane {
+    background: #303030;
+  }
+
+.center {
+  width: 50%;
+  margin: 0 auto;
+}
+
+.text_center {
+  text-align: center;
+}
+
+.ant-statistic-title {
+  margin-bottom: -5px;
+}
+
+.value {
+  font-size: 120%;
+  fill: white;
+}

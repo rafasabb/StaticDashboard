@@ -1,0 +1,17 @@
+#view1 {
+  height: 160px;
+  /* background-color: blue; */
+}
+
+.small_title .ant-statistic-title{
+  font-size: 11px;
+}
+
+.small_title .ant-statistic-content{
+  font-size: 18px;
+}
+
+.right_text{
+  text-align: right;
+  float: right;
+}
