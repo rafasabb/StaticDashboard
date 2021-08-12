@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import React from 'react';
 import {
   Statistic, Row, List,
@@ -6,44 +7,63 @@ import './view4.css';
 
 const classNames = require('classnames');
 
-export default () => {
-  const data = [
+export default (props) => {
+  const { data } = props;
+
+  const dud = [
     {
-      day: '22/03/1990',
-      consistency: '0.72',
+      start: new Date(0),
+      consistency: 0.0,
     },
     {
-      day: '11/05/2012',
-      consistency: '0.12',
+      start: new Date(8.64e+7),
+      consistency: 0.5,
     },
     {
-      day: '08/06/2152',
-      consistency: '0.47',
+      start: new Date(1.728e+8),
+      consistency: 0.99,
     },
   ];
 
+  const setColor = (consistency) => {
+    if (consistency <= 0.39) {
+      return 'red';
+    }
+    if (consistency >= 0.40 && consistency <= 0.69) {
+      return '#FFC857';
+    }
+    return 'blue';
+  };
   return (
     <Row id="view3">
       <Row className="margin_bot">
-        <Statistic className="title_row" title="Consistencia Media" value="44%" valueStyle={{ color: '#FFC857' }} />
+        <Statistic
+          className="title_row"
+          title="Consistencia Media"
+          value={data ? `${(data.medianConsistency.toFixed(2) * 100.0).toFixed(0)}%` : '0%'}
+          valueStyle={{
+            // eslint-disable-next-line no-nested-ternary
+            color: data ? setColor(data.medianConsistency) : setColor(0.00),
+          }}
+        />
       </Row>
       <Row>
-        <text className="title_row ant-statistic-title">
+        <p className="title_row ant-statistic-title">
           Consistencia nos ultimos dias
-        </text>
+        </p>
       </Row>
       <Row className="width_max">
         <List
           className="width_max"
           size="small"
-          dataSource={data}
+          dataSource={data ? data.lastFights : dud}
           renderItem={(item) => (
             <List.Item
               style={{ paddingTop: '2px', paddingBottom: '2px' }}
             >
               <div className="spread_ends width_max">
                 <div className="inline">
-                  {item.day.toString()}
+                  {`${item.start.getDate()}/${item.start.getMonth()}/${item.start.getFullYear()}`}
                 </div>
                 <div className={
                     classNames(
@@ -53,7 +73,7 @@ export default () => {
                     )
 }
                 >
-                  {`${parseFloat(item.consistency) * 100}%`}
+                  {`${(item.consistency.toFixed(2) * 100.0).toFixed(0)}%`}
                 </div>
               </div>
             </List.Item>

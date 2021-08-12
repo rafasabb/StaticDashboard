@@ -1,9 +1,13 @@
 import * as d3 from 'd3';
 
 const draw = (props) => {
+  const { data } = props;
+
+  const fixDate = (date) => date.hours * 60 + date.minutes;
+
   const dataset = [
-    { label: 'Idle', count: 37.5 },
-    { label: 'Combat', count: 13.9 },
+    { label: 'Idle', count: fixDate(data[0]) },
+    { label: 'Combat', count: fixDate(data[1]) },
   ];
 
   d3.select('.vis-piechart > *').remove();
