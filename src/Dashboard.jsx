@@ -12,10 +12,12 @@ import View1 from './Views/View1';
 import View2 from './Views/View2';
 import View3 from './Views/View3';
 import View4 from './Views/View4';
+import View5 from './Views/View5';
 
 import calcTime from './DataProcessing/calcTime';
 import calcConsistency from './DataProcessing/calcConsistency';
 import calcProgressionPerPhase from './DataProcessing/calcProgressionPerPhase';
+import calcPhaseProg from './DataProcessing/calcPhaseProg';
 
 const {
   Header, Content, Footer,
@@ -39,6 +41,7 @@ export default () => {
   const [processedData, setProcessedData] = useState(null);
   const [processedConsistency, setProcessedConsistency] = useState(null);
   const [progressionPerPhase, setProgressionPerPhase] = useState(null);
+  const [progressionTotal, setProgressionTotal] = useState(null);
 
   const loadCSV = (fightArray) => {
     csv(fightArray[0]).then((data) => {
@@ -62,6 +65,7 @@ export default () => {
       setProcessedData(calcTime(reportData, fightData));
       setProcessedConsistency(calcConsistency(reportData));
       setProgressionPerPhase(calcProgressionPerPhase(reportData, fightData));
+      setProgressionTotal(calcPhaseProg(reportData, fightData));
     }
   }, [fightData, reportData]);
   return (
@@ -101,8 +105,10 @@ export default () => {
             </Col>
           </Row>
           <Row gutter={16}>
-            <Col span={4}>
-              <Content className="pane" style={{ height: 600, marginBottom: '10px' }} />
+            <Col xs={24} sm={24} md={12} lg={12} xl={9}>
+              <Content className="pane" style={{ height: 600, marginBottom: '10px' }} >
+                <View5 data={progressionTotal} />
+              </Content>
             </Col>
             <Col span={12}>
               <Content className="pane" style={{ height: 600, marginBottom: '10px' }} />

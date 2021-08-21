@@ -77,7 +77,7 @@ export default (props) => {
   };
 
   const currentSelect = (dataset) => {
-    if (!selectedPhase) {
+    if (!selectedPhase || !dataset) {
       return null;
     }
     const currentF = dataset.filter((o) => o.label === selectedPhase)[0];
@@ -90,7 +90,6 @@ export default (props) => {
       totalTime: currentF.totalTime,
     };
   };
-
   const dataset = currentFight(data, current);
   const currentSelectedFight = currentSelect(dataset);
   const prog = calcProg(dataset);

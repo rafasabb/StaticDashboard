@@ -47,7 +47,7 @@ export default (props) => {
           }}
         />
       </Row>
-      <Row>
+      <Row className="width_max">
         <p className="title_row ant-statistic-title">
           Consistencia nos ultimos dias
         </p>

@@ -15,3 +15,7 @@
   text-align: right;
   float: right;
 }
+
+.width_max {
+  width: 100%;
+}
