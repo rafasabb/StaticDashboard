@@ -6,7 +6,6 @@ export default (props) => {
   const {
     dataset, setPhase, selection, width, height,
   } = props;
-  const prp = { width: 295, height: 155 };
   const margin = {
     top: 0, right: 10, bottom: 20, left: 5,
   };
@@ -23,7 +22,7 @@ export default (props) => {
     .range([0, innerWidth]);
 
   return (
-    <svg width={prp.width} height={prp.height}>
+    <svg width={width} height={height}>
       <g transform={`translate(${margin.left}, ${margin.top})`}>
         {
           xScale.ticks().map((tickValue) => (
