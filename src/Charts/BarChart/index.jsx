@@ -37,7 +37,7 @@ export default (props) => {
           dataset.map((d) => (
             <g
               key={d.label}
-              onMouseEnter={() => setPhase(d.label)}
+              onMouseEnter={() => setPhase(d.number)}
               onMouseLeave={() => setPhase(null)}
             >
               <rect

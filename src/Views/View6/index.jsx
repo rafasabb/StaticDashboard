@@ -6,7 +6,13 @@ import './view6.css';
 import ScatterPlot from '../../Charts/ScatterPlot';
 
 export default (props) => {
-  const { data } = props;
+  const {
+    data,
+    currentPhase,
+    currentReport,
+    setCurrentPhase,
+    setCurrentReport,
+  } = props;
 
   const dud = [
     {
@@ -33,8 +39,14 @@ export default (props) => {
   ];
 
   return (
-    <Row id="view3">
-      <ScatterPlot dataset={data || dud} setPhase="a" selection={1} width={800} height={300} />
+    <Row id="view6">
+      <ScatterPlot
+        dataset={data || dud}
+        currentPhase={currentPhase}
+        setCurrentPhase={setCurrentPhase}
+        width={600}
+        height={300}
+      />
     </Row>
   );
 };

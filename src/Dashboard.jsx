@@ -37,9 +37,15 @@ function chooseFight(current) {
 }
 
 export default () => {
-  const [currentFight, setCurrentFight] = useState(0);
+  // Selection
+  const [currentFight, setCurrentFight] = useState(0); // Uwu, Ucob, Tea, etc..
+  const [currentPhase, setCurrentPhase] = useState(null); // 1, 2, 3..
+  const [currentReport, setCurrentReport] = useState(null); // report code
+  // Base data
   const [fightData, setFightData] = useState(null);
   const [reportData, setReportData] = useState(null);
+
+  // Processed data
   const [processedData, setProcessedData] = useState(null);
   const [processedConsistency, setProcessedConsistency] = useState(null);
   const [progressionPerPhase, setProgressionPerPhase] = useState(null);
@@ -98,7 +104,12 @@ export default () => {
 
             <Col xs={24} sm={12} md={12} lg={8} xl={7}>
               <Content className="pane" style={{ height: 160, marginBottom: '10px' }}>
-                <View3 data={progressionPerPhase} current={currentFight} />
+                <View3
+                  data={progressionPerPhase}
+                  current={currentFight}
+                  selectedPhase={currentPhase}
+                  setSelectedPhase={setCurrentPhase}
+                />
               </Content>
             </Col>
 
@@ -115,8 +126,15 @@ export default () => {
               </Content>
             </Col>
             <Col span={12}>
-              <Content className="pane" style={{ height: 600, marginBottom: '10px' }} />
-              <View6 data={fightOrder} />
+              <Content className="pane" style={{ height: 600, marginBottom: '10px' }}>
+                <View6
+                  data={fightOrder}
+                  currentPhase={currentPhase}
+                  currentReport={currentReport}
+                  setCurrentPhase={setCurrentPhase}
+                  setCurrentReport={setCurrentPhase}
+                />
+              </Content>
             </Col>
           </Row>
         </Layout>

@@ -9,9 +9,10 @@ import './view3.css';
 import { UWU } from '../../Constants/fightConstants';
 
 export default (props) => {
-  const { data, current } = props;
+  const {
+    data, current, selectedPhase, setSelectedPhase,
+  } = props;
   const [currentSelection, setCurrentSelection] = useState('a');
-  const [selectedPhase, setSelectedPhase] = useState(null);
   const width = 295;
   const height = 155;
 
@@ -44,6 +45,7 @@ export default (props) => {
       const currentF = fightData.filter((o) => o.phase === p.number)[0];
       const item = {
         label: p.name,
+        number: p.number,
         pulls: currentF.pulls,
         color: p.color,
         totalPulls: currentF.totalPulls,
@@ -80,7 +82,10 @@ export default (props) => {
     if (!selectedPhase || !dataset) {
       return null;
     }
-    const currentF = dataset.filter((o) => o.label === selectedPhase)[0];
+    const currentF = dataset.filter((o) => o.number === selectedPhase)[0];
+    if (!currentF) {
+      return null;
+    }
     return {
       label: currentF.label,
       pulls: currentF.pulls,
@@ -102,14 +107,14 @@ export default (props) => {
         </Radio.Group>
         <Row className="title_row">
           <Statistic
-            title={selectedPhase ? currentSelectedFight.label : 'Pulls'}
+            title={(selectedPhase && currentSelectedFight) ? currentSelectedFight.label : 'Pulls'}
             // eslint-disable-next-line no-nested-ternary
-            value={selectedPhase ? (currentSelection === 'a' ? currentSelectedFight.pulls : msToTime(currentSelectedFight.progTime)) : (currentSelection === 'a' ? prog.totalPulls : msToTime(prog.totalTime))}
-            valueStyle={{ color: selectedPhase ? currentSelectedFight.color : '#000' }}
+            value={(selectedPhase && currentSelectedFight) ? (currentSelection === 'a' ? currentSelectedFight.pulls : msToTime(currentSelectedFight.progTime)) : (currentSelection === 'a' ? prog.totalPulls : msToTime(prog.totalTime))}
+            valueStyle={{ color: (selectedPhase && currentSelectedFight) ? currentSelectedFight.color : '#000' }}
           />
         </Row>
         <Row className="title_row small_title">
-          {selectedPhase ? <Statistic title="Wipes" value={currentSelectedFight.totalPulls} valueStyle={{ color: currentSelectedFight.color }} /> : <></>}
+          {(selectedPhase && currentSelectedFight) ? <Statistic title="Wipes" value={currentSelectedFight.totalPulls} valueStyle={{ color: currentSelectedFight.color }} /> : <></>}
         </Row>
       </Col>
       <Col span={12}>

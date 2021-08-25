@@ -35,7 +35,7 @@ export default (props) => {
     return 'blue';
   };
   return (
-    <Row id="view3">
+    <Row id="view4">
       <Row className="margin_bot">
         <Statistic
           className="title_row"

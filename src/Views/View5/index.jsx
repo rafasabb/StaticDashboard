@@ -67,7 +67,7 @@ export default (props) => {
     return null;
   };
   return (
-    <Row id="view3">
+    <Row id="view5">
       <Table dataSource={createDataSource()} columns={createColumns()} />
     </Row>
   );
