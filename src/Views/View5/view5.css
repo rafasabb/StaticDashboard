@@ -1,33 +1,3 @@
-#view5 {
-  height: 160px;
-  /* background-color: blue; */
-}
-
-.margin_bot {
-  margin-bottom: -11px;
-}
-
-.width_max {
-  width: 100%;
-}
-
-.inline {
-  display: flex;
-}
-
-.spread_ends {
-  display: flex;
-  justify-content: space-between;
-}
-
-.color_good {
-  color:blue
-}
-
-.color_warning {
-  color: #FFC857;
-}
-
-.color_bad {
-  color: red;
+.selected{
+  background-color: red;
 }

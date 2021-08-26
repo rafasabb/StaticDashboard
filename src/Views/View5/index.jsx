@@ -1,74 +1,124 @@
+/* eslint-disable react/jsx-props-no-spreading */
 /* eslint-disable react/prop-types */
-import React from 'react';
-import { Row, Table } from 'antd';
+import React, { useMemo, useState } from 'react';
+import { useTable, usePagination } from 'react-table';
+import { Row } from 'antd';
 import './view5.css';
 
 export default (props) => {
-  const { data } = props;
-
-  const setColor = (consistency) => {
-    if (consistency <= 0.39) {
-      return 'red';
-    }
-    if (consistency >= 0.4 && consistency <= 0.69) {
-      return '#FFC857';
-    }
-    return 'blue';
+  const {
+    tableColumns, tableData, setCurrentReport, currentReport,
+  } = props;
+  const [thisPageIndex, setThisPageIndex] = useState(0);
+  const [thisPageSize, setThisPageSize] = useState(12);
+  const makeTable = (tableInstance) => {
+    const {
+      getTableProps,
+      getTableBodyProps,
+      headerGroups,
+      page,
+      prepareRow,
+      gotoPage,
+      previousPage,
+      nextPage,
+      canPreviousPage,
+      canNextPage,
+      pageCount,
+      setPageSize,
+      pageOptions,
+      state: { pageIndex, pageSize },
+    } = tableInstance;
+    return (
+      <>
+        <table {...getTableProps()}>
+          <thead>
+            {
+              headerGroups.map((headerGroup) => (
+                <tr {...headerGroup.getHeaderGroupProps()}>
+                  {
+                  headerGroup.headers.map((column) => (
+                    <th {...column.getHeaderProps()}>
+                      { column.render('Header') }
+                    </th>
+                  ))
+                  }
+                </tr>
+              ))
+            }
+          </thead>
+          <tbody {...getTableBodyProps()}>
+            {
+              page.map((row) => {
+                prepareRow(row);
+                return (
+                  <tr
+                    {...row.getRowProps()}
+                    className={row.original.code === currentReport ? 'selected' : ''}
+                    onMouseEnter={() => setCurrentReport(row.original.code)}
+                    onMouseLeave={() => (null)}
+                  >
+                    {
+                    row.cells.map((cell) => (
+                      <td {...cell.getCellProps()}>
+                        { cell.render('Cell') }
+                      </td>
+                    ))
+                    }
+                  </tr>
+                );
+              })
+            }
+          </tbody>
+        </table>
+        <div className="pagination">
+          <button type="button" onClick={() => { gotoPage(0); setThisPageIndex(0); }} disabled={!canPreviousPage}>
+            {'<<'}
+          </button>
+          {' '}
+          <button type="button" onClick={() => { previousPage(); setThisPageIndex(thisPageIndex - 1); }} disabled={!canPreviousPage}>
+            {'<'}
+          </button>
+          {' '}
+          <button type="button" onClick={() => { nextPage(); setThisPageIndex(thisPageIndex + 1); }} disabled={!canNextPage}>
+            {'>'}
+          </button>
+          {' '}
+          <button type="button" onClick={() => { gotoPage(pageCount - 1); setThisPageIndex(pageCount - 1); }} disabled={!canNextPage}>
+            {'>>'}
+          </button>
+          {' '}
+          <span>
+            Page
+            {' '}
+            <strong>
+              {`${pageIndex + 1} of ${pageOptions.length}`}
+            </strong>
+            {' '}
+          </span>
+        </div>
+      </>
+    );
   };
 
-  const phases = {
-    1: 'Garuda',
-    2: 'Ifrit',
-    3: 'Titan',
-    4: 'Lahabrea',
-    5: 'Ultima',
-  };
+  const tableInstance = useTable(
+    {
+      columns: tableColumns,
+      data: tableData,
+      initialState: {
+        pageIndex: thisPageIndex,
+        pageSize: thisPageSize,
+      },
+    },
+    usePagination,
+  );
+  const table = useMemo(
+    () => makeTable(tableInstance),
+    [tableColumns, tableData, thisPageIndex, thisPageSize, currentReport],
+  );
 
-  const createDataSource = () => {
-    if (data) {
-      return data.reports.map((report, index) => {
-        const returnObj = {};
-        returnObj.date = `${report.start.getDate()}/${report.start.getMonth()}/${report.start.getFullYear()}`;
-        returnObj.sDate = report.start;
-        returnObj.key = index;
-        // eslint-disable-next-line no-plusplus
-        for (let i = 0; i < data.phases.length; i++) {
-          const currentNumber = data.phases[i];
-          const currentCount = report.list[i] ? report.list[i] : 0;
-          returnObj[currentNumber] = currentCount;
-        }
-        return returnObj;
-      }).sort((a, b) => b.sDate - a.sDate);
-    }
-    return null;
-  };
-
-  const createColumns = () => {
-    if (data) {
-      const columns = [];
-      const sortedPhases = data.phases.sort();
-      const date = {
-        title: 'Date',
-        dataIndex: 'date',
-        key: 'date',
-      };
-      columns.push(date);
-      // eslint-disable-next-line no-plusplus
-      for (let i = 0; i < sortedPhases.length; i++) {
-        const phaseObj = {
-          title: phases[i + 1],
-          dataIndex: sortedPhases[i],
-          key: sortedPhases[i],
-        };
-        columns.push(phaseObj);
-      }
-      return columns;
-    }
-    return null;
-  };
   return (
     <Row id="view5">
-      <Table dataSource={createDataSource()} columns={createColumns()} />
+      {table}
     </Row>
   );
 };

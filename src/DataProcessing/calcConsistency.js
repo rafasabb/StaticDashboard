@@ -1,4 +1,7 @@
 export default (reports) => {
+  if (!reports) {
+    return null;
+  }
   const medianConsistency = reports.reduce(
     (total, next) => total + parseFloat(next.median_consistency), 0,
   ) / reports.length;

@@ -121,6 +121,7 @@ export default (props) => {
         <BarChart
           dataset={dataset}
           selection={currentSelection}
+          currentPhase={selectedPhase}
           setPhase={setSelectedPhase}
           width={width}
           height={height}

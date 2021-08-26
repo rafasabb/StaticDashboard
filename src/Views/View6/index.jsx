@@ -11,7 +11,6 @@ export default (props) => {
     currentPhase,
     currentReport,
     setCurrentPhase,
-    setCurrentReport,
   } = props;
 
   const dud = [
@@ -44,6 +43,7 @@ export default (props) => {
         dataset={data || dud}
         currentPhase={currentPhase}
         setCurrentPhase={setCurrentPhase}
+        currentReport={currentReport}
         width={600}
         height={300}
       />

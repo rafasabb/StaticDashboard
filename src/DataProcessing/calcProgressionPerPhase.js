@@ -1,5 +1,8 @@
 /* eslint no-plusplus: ["error", { "allowForLoopAfterthoughts": true }] */
 export default (reports, fights) => {
+  if (!reports || !fights) {
+    return null;
+  }
   const fightList = [];
   const progArr = [];
 

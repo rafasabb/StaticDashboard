@@ -1,4 +1,7 @@
 export default (reports, fights) => {
+  if (!reports || !fights) {
+    return null;
+  }
   const reportList = reports.map((report) => {
     const reportStart = new Date(parseInt(report.start, 10));
     const reportFightList = fights.map((fight) => {
@@ -9,6 +12,7 @@ export default (reports, fights) => {
           lastPhase: parseInt(fight.last_phase, 10),
           kill: !!+fight.kill,
           consistency: parseFloat(fight.consistency),
+          code: fight.report_code,
         };
       }
       return null;

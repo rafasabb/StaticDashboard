@@ -1,4 +1,7 @@
 export default (reports, fights) => {
+  if (!reports || !fights) {
+    return null;
+  }
   let earliestDate = new Date(2047483647000);
   let latestDate = new Date(0);
   let totalCombatTime = 0;

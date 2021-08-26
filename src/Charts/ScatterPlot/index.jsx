@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import * as d3 from 'd3';
 
 import { UWU } from '../../Constants/fightConstants';
@@ -9,9 +9,12 @@ export default (props) => {
     dataset,
     currentPhase,
     setCurrentPhase,
+    currentReport,
     width,
     height,
   } = props;
+
+  const [scatter, setScatter] = useState(null);
 
   const margin = {
     top: 20,
@@ -31,6 +34,30 @@ export default (props) => {
   };
   const colorScale = setColorScale();
 
+  // const highlight = (d) => {
+  // const selectedPhase = d ? d.lastPhase : 0;
+  // setCurrentPhase(selectedPhase);
+  // };
+
+  const createScatter = () => dataset.map((d, index) => (
+    <g
+      key={d.fightStart.getTime() / 1000}
+      onMouseEnter={() => setCurrentPhase(d.lastPhase)}
+      onMouseLeave={() => setCurrentPhase(null)}
+    >
+      <circle
+        className={`dot p${d.lastPhase} k${d.kill}`}
+        cx={xScale(index)}
+        cy={yScale(d.fightPercent)}
+        r={4}
+        prop={d.kill ? 'yellow' : colorScale(d.lastPhase)}
+        fill={d.kill ? 'yellow' : colorScale(d.lastPhase)}
+        stroke={d.code === currentReport ? 'black' : ''}
+        strokeWidth={d.code === currentReport ? '1' : ''}
+      />
+    </g>
+  ));
+
   useEffect(() => {
     if (currentPhase) {
       d3.selectAll('.dot')
@@ -44,30 +71,20 @@ export default (props) => {
         .duration(200)
         .style('fill', colorScale(currentPhase))
         .attr('r', 5);
+    } else {
+      setScatter(createScatter());
     }
   }, [currentPhase]);
 
-  const highlight = (d) => {
-    const selectedPhase = d ? d.lastPhase : 0;
-    setCurrentPhase(selectedPhase);
-  };
+  useEffect(() => {
+    setScatter(createScatter());
+  }, [dataset, currentReport]);
 
   return (
     <svg width={width} height={height} className="path">
       <g transform={`translate(${margin.left}, ${margin.top})`}>
-        <g>
-          {dataset.map((d, index) => (
-            <g key={d.fightStart.getTime() / 1000}>
-              <circle
-                className={`dot p${d.lastPhase} k${d.kill}`}
-                cx={xScale(index)}
-                cy={yScale(d.fightPercent)}
-                r={4}
-                fill={d.kill ? 'yellow' : colorScale(d.lastPhase)}
-                onMouseEnter={() => highlight(d)}
-              />
-            </g>
-          ))}
+        <g key={currentPhase + currentReport}>
+          {scatter}
         </g>
       </g>
     </svg>

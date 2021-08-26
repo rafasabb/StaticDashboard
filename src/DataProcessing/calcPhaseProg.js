@@ -1,4 +1,7 @@
 export default (reports, fights) => {
+  if (!reports || !fights) {
+    return null;
+  }
   const phaseList = [];
   const reportList = reports.map((report) => {
     const reportStart = new Date(parseInt(report.start, 10));
@@ -19,6 +22,7 @@ export default (reports, fights) => {
 
     return {
       start: reportStart,
+      code: report.code,
       list: pullList,
     };
   });
