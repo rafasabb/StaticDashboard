@@ -112,7 +112,7 @@ export default () => {
             <Col xs={24} sm={12} md={12} lg={8} xl={7}>
               <Content className="pane" style={{ height: 160, marginBottom: '10px' }}>
                 {
-                  (progressionPerPhase && currentFight)
+                  (progressionPerPhase)
                     ? (
                       <View3
                         data={progressionPerPhase}
