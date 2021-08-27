@@ -14,11 +14,6 @@ body {
     background: #303030;
   }
 
-.center {
-  width: 50%;
-  margin: 0 auto;
-}
-
 .text_center {
   text-align: center;
 }

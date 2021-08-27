@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import React from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { Row } from 'antd';
 import './view6.css';
 
@@ -12,17 +12,24 @@ export default (props) => {
     currentReport,
     setCurrentPhase,
   } = props;
+  const [dimensions, setDimensions] = useState([100, 100]); // [width, height]
+
+  const divRef = useRef(null);
+  useEffect(() => {
+    setDimensions([divRef.current.scrollWidth, divRef.current.scrollHeight]);
+  }, []);
 
   return (
-    <Row id="view6">
-      <ScatterPlot
-        dataset={data}
-        currentPhase={currentPhase}
-        setCurrentPhase={setCurrentPhase}
-        currentReport={currentReport}
-        width={600}
-        height={300}
-      />
+    <Row id="view">
+      <div className="width_max" ref={divRef}>
+        <ScatterPlot
+          dataset={data}
+          currentPhase={currentPhase}
+          setCurrentPhase={setCurrentPhase}
+          currentReport={currentReport}
+          dimensions={dimensions}
+        />
+      </div>
     </Row>
   );
 };

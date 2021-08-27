@@ -17,7 +17,7 @@ export default (reports, fights) => {
       }
       return null;
     });
-    return reportFightList.filter((el) => el);
+    return reportFightList.filter((e) => e);
   });
   const fightList = [].concat(...reportList);
   return fightList.sort((a, b) => a.fightStart - b.fightStart);

@@ -5,10 +5,10 @@ import { useTable, usePagination } from 'react-table';
 import { Row } from 'antd';
 import './view5.css';
 
-// TODO - auto resize
+// TODO - fix
 export default (props) => {
   const {
-    tableColumns, tableData, setCurrentReport, currentReport,
+    tableColumns, tableData, currentFightPhases, setCurrentReport, currentReport, currentPhase,
   } = props;
   const [thisPageIndex, setThisPageIndex] = useState(0);
   const [thisPageSize, setThisPageSize] = useState(10);
@@ -37,7 +37,13 @@ export default (props) => {
     }
     return (
       <>
-        <table {...getTableProps()}>
+        <table className="width_max" {...getTableProps()}>
+          <colgroup>
+            <col />
+            {
+              currentFightPhases.map((p) => (<col key={p.number} style={{ backgroundColor: (currentPhase === p.number) ? p.color : '' }} />))
+            }
+          </colgroup>
           <thead>
             {
               headerGroups.map((headerGroup) => (
@@ -120,11 +126,11 @@ export default (props) => {
   );
   const table = useMemo(
     () => makeTable(tableInstance, 10),
-    [tableColumns, tableData, thisPageIndex, thisPageSize, currentReport],
+    [tableColumns, tableData, thisPageIndex, thisPageSize, currentReport, currentPhase],
   );
 
   return (
-    <Row id="view5">
+    <Row id="view">
       {table}
     </Row>
   );

@@ -2,14 +2,13 @@
 import React, { useEffect, useState } from 'react';
 import * as d3 from 'd3';
 
-import { UWU } from '../../Constants/fightConstants';
-
 // TODO - auto resize
 export default (props) => {
   const {
-    dataset, setPhase, currentPhase, selection, width, height,
+    dataset, setPhase, currentPhase, selection, currentFightPhases, dimensions,
   } = props;
 
+  const [width, height] = dimensions;
   const [bars, setBars] = useState(null);
 
   const margin = {
@@ -19,44 +18,44 @@ export default (props) => {
   const innerHeight = height - margin.top - margin.bottom;
 
   const yScale = d3.scaleBand()
-    .domain(dataset.map((d) => d.label))
+    .domain(dataset.map((d) => d.name))
     .range([0, innerHeight])
     .paddingInner(0.1);
 
   const xScale = d3.scaleLinear()
-    .domain([0, Math.max(...dataset.map((o) => (selection === 'a' ? o.pulls : o.progTime)))])
+    .domain([0, Math.max(...dataset.map((o) => (selection === 'a' ? o.wipesBeforeProg : o.progTime)))])
     .range([0, innerWidth]);
 
   const setColorScale = () => {
-    const domain = UWU.map((fight) => fight.number);
-    const range = UWU.map((fight) => fight.color);
+    const domain = currentFightPhases.map((fight) => fight.number);
+    const range = currentFightPhases.map((fight) => fight.color);
     return d3.scaleOrdinal().domain(domain).range(range);
   };
   const colorScale = setColorScale();
 
   const createBars = () => dataset.map((d) => (
     <g
-      key={d.label}
-      onMouseEnter={() => setPhase(d.number)}
+      key={d.name}
+      onMouseEnter={() => setPhase(d.phase)}
       onMouseLeave={() => setPhase(null)}
     >
       <rect
-        className={`bar p${d.number}`}
+        className={`bar p${d.phase}`}
         x={0}
-        y={yScale(d.label)}
-        width={xScale(selection === 'a' ? d.pulls : d.progTime)}
+        y={yScale(d.name)}
+        width={xScale(selection === 'a' ? d.wipesBeforeProg : d.progTime)}
         height={yScale.bandwidth()}
-        style={{ fill: colorScale(d.number) }}
+        style={{ fill: colorScale(d.phase) }}
       />
       <text
         className="value"
         style={{ textAnchor: 'end' }}
         dx="-2"
         dy="1.3em"
-        x={xScale(selection === 'a' ? d.pulls : d.progTime)}
-        y={yScale(d.label)}
+        x={xScale(selection === 'a' ? d.wipesBeforeProg : d.progTime)}
+        y={yScale(d.name)}
       >
-        {d.label}
+        {d.name}
       </text>
     </g>
   ));
@@ -79,7 +78,7 @@ export default (props) => {
 
   useEffect(() => {
     setBars(createBars());
-  }, [dataset]);
+  }, [dataset, selection, dimensions]);
 
   return (
     <svg width={width} height={height}>
@@ -88,7 +87,7 @@ export default (props) => {
           xScale.ticks().map((tickValue) => (
             <g key={xScale(tickValue)} transform={`translate(${xScale(tickValue)},0)`}>
               <line y2={innerHeight} stroke="#C0C0BB" />
-              <text dy=".71em" style={{ textAnchor: 'middle', fill: '#C0C0BB' }} y={innerHeight + 3}>{tickValue}</text>
+              <text dy=".71em" style={{ textAnchor: 'middle', fill: '#C0C0BB' }} y={innerHeight + 3}>{selection === 'a' ? tickValue : Math.floor(tickValue * 2.77778e-7)}</text>
             </g>
           ))
         }

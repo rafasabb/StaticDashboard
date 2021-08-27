@@ -13,15 +13,15 @@ export default (props) => {
   const { data } = props;
 
   return (
-    <Row id="view4">
+    <Row id="view">
       <Row className="margin_bot">
         <Statistic
           className="title_row"
           title="Consistencia Media"
-          value={`${(data.medianConsistency.toFixed(2) * 100.0).toFixed(0)}%`}
+          value={`${(100 - data.medianConsistency.toFixed(2) * 100.0).toFixed(0)}%`}
           valueStyle={{
             // eslint-disable-next-line no-nested-ternary
-            color: consistencyColor(data.medianConsistency),
+            color: consistencyColor(1 - data.medianConsistency),
           }}
         />
       </Row>
@@ -45,13 +45,16 @@ export default (props) => {
                 </div>
                 <div className={
                     classNames(
-                      { color_bad: item.consistency <= 0.39 },
-                      { color_warning: item.consistency >= 0.40 && item.consistency <= 0.69 },
-                      { color_good: item.consistency >= 0.70 },
+                      { color_bad: 1.0 - item.consistency <= 0.39 },
+                      {
+                        color_warning: 1.0 - item.consistency >= 0.40
+                        && 1.0 - item.consistency <= 0.59,
+                      },
+                      { color_good: 1.0 - item.consistency >= 0.60 },
                     )
 }
                 >
-                  {`${(item.consistency.toFixed(2) * 100.0).toFixed(0)}%`}
+                  {`${(100 - item.consistency.toFixed(2) * 100.0).toFixed(0)}%`}
                 </div>
               </div>
             </List.Item>

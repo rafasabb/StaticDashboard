@@ -10,7 +10,7 @@ export const createColumns = (fightConstant) => {
 
   columns.push(date);
 
-  const phases = fightConstant.map((d) => ({ Header: d.name, accessor: `p${d.number}` }));
+  const phases = fightConstant.map((d) => ({ Header: `P${d.number}`, accessor: `p${d.number}` }));
   return columns.concat(phases);
 };
 

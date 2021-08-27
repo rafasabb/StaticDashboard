@@ -33,26 +33,38 @@ export default () => {
   const [currentFight, setCurrentFight] = useState(0); // Uwu, Ucob, Tea, etc..
   const [currentPhase, setCurrentPhase] = useState(null); // 1, 2, 3..
   const [currentReport, setCurrentReport] = useState(null); // report code
-  console.log(currentFight);
+
   // Processed selection
   const currentFightPhases = getFightPhases(currentFight);
-  console.log(currentFightPhases);
+
   // Base data
   const [fightData, setFightData] = useState(null);
   const [reportData, setReportData] = useState(null);
 
   // Processed data
-  const processedData = useMemo(() => calcTime(reportData, fightData), [fightData, reportData]);
-  const processedConsistency = useMemo(() => calcConsistency(reportData), [reportData]);
+  const processedData = useMemo(
+    () => calcTime(reportData, fightData), [fightData, reportData],
+  );
+  const processedConsistency = useMemo(
+    () => calcConsistency(reportData), [reportData],
+  );
   const progressionPerPhase = useMemo(
-    () => calcProgressionPerPhase(reportData, fightData), [fightData, reportData],
+    () => calcProgressionPerPhase(
+      reportData, fightData, currentFightPhases,
+    ), [fightData, reportData],
   );
   const progressionTotal = useMemo(
     () => calcPhaseProg(reportData, fightData), [fightData, reportData],
   );
-  const fightOrder = useMemo(() => calcFightOrder(reportData, fightData), [fightData, reportData]);
-  const tableColumns = useMemo(() => createColumns(currentFightPhases), []);
-  const tableData = useMemo(() => createDataSource(progressionTotal), [progressionTotal]);
+  const fightOrder = useMemo(
+    () => calcFightOrder(reportData, fightData), [fightData, reportData],
+  );
+  const tableColumns = useMemo(
+    () => createColumns(currentFightPhases), [],
+  );
+  const tableData = useMemo(
+    () => createDataSource(progressionTotal), [progressionTotal],
+  );
 
   const loadCSV = (fightArray) => {
     csv(fightArray[0]).then((data) => {
@@ -104,9 +116,9 @@ export default () => {
                     ? (
                       <View3
                         data={progressionPerPhase}
-                        current={currentFightPhases}
-                        selectedPhase={currentPhase}
-                        setSelectedPhase={setCurrentPhase}
+                        currentFightPhases={currentFightPhases}
+                        currentPhase={currentPhase}
+                        setCurrentPhase={setCurrentPhase}
                       />
                     ) : <></>
                 }
@@ -122,23 +134,25 @@ export default () => {
             </Col>
           </Row>
           <Row gutter={16}>
-            <Col xs={24} sm={24} md={12} lg={12} xl={9}>
-              <Content className="pane" style={{ height: 600, marginBottom: '10px' }}>
+            <Col xs={24} sm={12} md={12} lg={6} xl={5}>
+              <Content className="pane" style={{ height: 300, marginBottom: '10px' }}>
                 {
                   (tableColumns && tableData)
                     ? (
                       <View5
                         tableColumns={tableColumns}
                         tableData={tableData}
+                        currentFightPhases={currentFightPhases}
                         setCurrentReport={setCurrentReport}
                         currentReport={currentReport}
+                        currentPhase={currentPhase}
                       />
                     ) : <></>
                 }
               </Content>
             </Col>
-            <Col span={12}>
-              <Content className="pane" style={{ height: 600, marginBottom: '10px' }}>
+            <Col xs={24} sm={24} md={24} lg={13} xl={11}>
+              <Content className="pane" style={{ height: 300, marginBottom: '10px' }}>
                 {
                   (fightOrder)
                     ? (

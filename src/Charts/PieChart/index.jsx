@@ -13,7 +13,7 @@ export default class PieChart extends Component {
 
   render() {
     return (
-      <div className="vis-piechart" />
+      <div className="vis-piechart item" />
     );
   }
 }

@@ -2,7 +2,9 @@ import * as d3 from 'd3';
 
 // TODO - Consertar essa porra
 const draw = (props) => {
-  const { data } = props;
+  const { data, dimensions } = props;
+
+  const [width, height] = dimensions;
 
   const fixDate = (date) => date.hours * 60 + date.minutes;
 
@@ -14,18 +16,18 @@ const draw = (props) => {
   d3.select('.vis-piechart > *').remove();
 
   const margin = {
-    top: 20, right: 10, bottom: 30, left: -20,
+    top: 0, right: 0, bottom: 0, left: 0,
   };
-  const width = props.width - margin.left - margin.right;
-  const height = props.height - margin.top - margin.bottom;
+  const innerWidth = Math.min(width, height) - margin.left - margin.right;
+  const innerHeight = Math.min(width, height) - margin.top - margin.bottom;
 
   const svg = d3.select('.vis-piechart')
     .append('svg')
     .classed('svg-content', true)
-    .attr('width', width + margin.left + margin.right)
-    .attr('height', height + margin.top + margin.bottom)
+    .attr('width', Math.min(width, height))
+    .attr('height', Math.min(width, height))
     .append('g')
-    .attr('transform', `translate(${width / 2 + margin.left},${height / 2 + margin.top})`);
+    .attr('transform', `translate(${innerWidth / 2},${innerHeight / 2})`);
 
   const radius = Math.min(width, height) / 2;
 

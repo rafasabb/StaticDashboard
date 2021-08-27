@@ -44,7 +44,7 @@ export const consistencyColor = (consistency) => {
   if (consistency <= 0.39) {
     return 'red';
   }
-  if (consistency >= 0.40 && consistency <= 0.69) {
+  if (consistency >= 0.40 && consistency <= 0.59) {
     return '#FFC857';
   }
   return 'blue';
