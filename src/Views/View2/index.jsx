@@ -16,24 +16,24 @@ export default (props) => {
     <Row id="view2">
       <Col span={12}>
         <Row className="title_row">
-          <Statistic title="Semanas de prog" value={data ? data.weeksOfProgression : 0} />
+          <Statistic title="Semanas de prog" value={data.weeksOfProgression} />
         </Row>
         <Row className="title_row small_title">
-          <Statistic title="Dias de Raid" value={data ? data.totalRaidDays : 0} valueStyle={{ color: 'steelblue' }} />
+          <Statistic title="Dias de Raid" value={data.totalRaidDays} valueStyle={{ color: 'steelblue' }} />
         </Row>
         <Row className="title_row small_title">
-          <Statistic title="Dias Corridos" value={data ? data.totalDaysToClear : 0} valueStyle={{ color: 'steelblue' }} />
+          <Statistic title="Dias Corridos" value={data.totalDaysToClear} valueStyle={{ color: 'steelblue' }} />
         </Row>
       </Col>
       <Col span={12}>
         <Row span={24} className="title_row right_text">
-          <Statistic title="Horas p/semana" value={data ? formatHour(data.averageHoursPerWeek) : '00:00'} />
+          <Statistic title="Horas p/semana" value={formatHour(data.averageHoursPerWeek)} />
         </Row>
         <Row span={24} className="title_row small_title right_text">
-          <Statistic title="Horas p/dia" value={data ? formatHour(data.averageHoursPerDay) : '00:00'} valueStyle={{ color: 'steelblue' }} />
+          <Statistic title="Horas p/dia" value={formatHour(data.averageHoursPerDay)} valueStyle={{ color: 'steelblue' }} />
         </Row>
         <Row span={24} className="title_row small_title right_text">
-          <Statistic title="Dias p/semana" value={data ? data.averageDaysPerWeek.toFixed(2) : '00:00'} valueStyle={{ color: 'steelblue' }} />
+          <Statistic title="Dias p/semana" value={data.averageDaysPerWeek.toFixed(2)} valueStyle={{ color: 'steelblue' }} />
         </Row>
       </Col>
     </Row>

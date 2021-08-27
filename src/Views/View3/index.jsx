@@ -20,18 +20,6 @@ export default (props) => {
     setCurrentSelection(select.target.value);
   };
 
-  const dud = [
-    {
-      label: 'C', pulls: 72, color: '#000', totalPulls: 0, progTime: 100, totalTime: 210,
-    },
-    {
-      label: 'A', pulls: 12, color: '#000', totalPulls: 0, progTime: 100, totalTime: 210,
-    },
-    {
-      label: 'B', pulls: 32, color: '#000', totalPulls: 0, progTime: 100, totalTime: 210,
-    },
-  ];
-
   const msToTime = (duration) => {
     // const milliseconds = Math.floor((duration % 1000) / 100);
     const minutes = Math.floor((duration / (1000 * 60)) % 60);
@@ -67,14 +55,11 @@ export default (props) => {
   });
 
   const currentFight = (fightData, currentF) => {
-    if (!fightData) {
-      return dud;
-    }
     switch (currentF) {
       case 0:
         return createDataset(fightData, UWU);
       default:
-        return dud;
+        return null;
     }
   };
 

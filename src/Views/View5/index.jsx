@@ -10,8 +10,9 @@ export default (props) => {
     tableColumns, tableData, setCurrentReport, currentReport,
   } = props;
   const [thisPageIndex, setThisPageIndex] = useState(0);
-  const [thisPageSize, setThisPageSize] = useState(12);
-  const makeTable = (tableInstance) => {
+  const [thisPageSize, setThisPageSize] = useState(10);
+
+  const makeTable = (tableInstance, localPageSize) => {
     const {
       getTableProps,
       getTableBodyProps,
@@ -28,6 +29,10 @@ export default (props) => {
       pageOptions,
       state: { pageIndex, pageSize },
     } = tableInstance;
+    if (localPageSize !== pageSize) {
+      setPageSize(localPageSize);
+      setThisPageSize(localPageSize);
+    }
     return (
       <>
         <table {...getTableProps()}>
@@ -112,7 +117,7 @@ export default (props) => {
     usePagination,
   );
   const table = useMemo(
-    () => makeTable(tableInstance),
+    () => makeTable(tableInstance, 10),
     [tableColumns, tableData, thisPageIndex, thisPageSize, currentReport],
   );
 

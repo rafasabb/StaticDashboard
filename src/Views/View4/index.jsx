@@ -10,21 +10,6 @@ const classNames = require('classnames');
 export default (props) => {
   const { data } = props;
 
-  const dud = [
-    {
-      start: new Date(0),
-      consistency: 0.0,
-    },
-    {
-      start: new Date(8.64e+7),
-      consistency: 0.5,
-    },
-    {
-      start: new Date(1.728e+8),
-      consistency: 0.99,
-    },
-  ];
-
   const setColor = (consistency) => {
     if (consistency <= 0.39) {
       return 'red';
@@ -34,16 +19,17 @@ export default (props) => {
     }
     return 'blue';
   };
+
   return (
     <Row id="view4">
       <Row className="margin_bot">
         <Statistic
           className="title_row"
           title="Consistencia Media"
-          value={data ? `${(data.medianConsistency.toFixed(2) * 100.0).toFixed(0)}%` : '0%'}
+          value={`${(data.medianConsistency.toFixed(2) * 100.0).toFixed(0)}%`}
           valueStyle={{
             // eslint-disable-next-line no-nested-ternary
-            color: data ? setColor(data.medianConsistency) : setColor(0.00),
+            color: setColor(data.medianConsistency),
           }}
         />
       </Row>
@@ -56,7 +42,7 @@ export default (props) => {
         <List
           className="width_max"
           size="small"
-          dataSource={data ? data.lastFights : dud}
+          dataSource={data.lastFights}
           renderItem={(item) => (
             <List.Item
               style={{ paddingTop: '2px', paddingBottom: '2px' }}

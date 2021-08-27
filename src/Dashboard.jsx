@@ -95,30 +95,41 @@ export default () => {
           <Row gutter={16}>
             <Col xs={24} sm={12} md={12} lg={6} xl={5}>
               <Content className="pane" style={{ height: 160, marginBottom: '10px' }}>
-                <View1 data={processedData} />
+                {
+                  processedData ? (<View1 data={processedData} />) : <></>
+                }
               </Content>
             </Col>
 
             <Col xs={24} sm={12} md={12} lg={5} xl={4}>
               <Content className="pane" style={{ height: 160, marginBottom: '10px' }}>
-                <View2 data={processedData} />
+                {
+                  processedData ? (<View2 data={processedData} />) : <></>
+                }
               </Content>
             </Col>
 
             <Col xs={24} sm={12} md={12} lg={8} xl={7}>
               <Content className="pane" style={{ height: 160, marginBottom: '10px' }}>
-                <View3
-                  data={progressionPerPhase}
-                  current={currentFight}
-                  selectedPhase={currentPhase}
-                  setSelectedPhase={setCurrentPhase}
-                />
+                {
+                  (progressionPerPhase && currentFight)
+                    ? (
+                      <View3
+                        data={progressionPerPhase}
+                        current={currentFight}
+                        selectedPhase={currentPhase}
+                        setSelectedPhase={setCurrentPhase}
+                      />
+                    ) : <></>
+                }
               </Content>
             </Col>
 
             <Col xs={24} sm={12} md={12} lg={6} xl={5}>
               <Content className="pane" style={{ height: 160, marginBottom: '10px' }}>
-                <View4 data={processedConsistency} />
+                {
+                  processedConsistency ? (<View4 data={processedConsistency} />) : <></>
+                }
               </Content>
             </Col>
           </Row>
@@ -134,19 +145,23 @@ export default () => {
                         setCurrentReport={setCurrentReport}
                         currentReport={currentReport}
                       />
-                    )
-                    : <></>
+                    ) : <></>
                 }
               </Content>
             </Col>
             <Col span={12}>
               <Content className="pane" style={{ height: 600, marginBottom: '10px' }}>
-                <View6
-                  data={fightOrder}
-                  currentPhase={currentPhase}
-                  currentReport={currentReport}
-                  setCurrentPhase={setCurrentPhase}
-                />
+                {
+                  (fightOrder)
+                    ? (
+                      <View6
+                        data={fightOrder}
+                        currentPhase={currentPhase}
+                        currentReport={currentReport}
+                        setCurrentPhase={setCurrentPhase}
+                      />
+                    ) : <></>
+                }
               </Content>
             </Col>
           </Row>

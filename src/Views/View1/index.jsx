@@ -9,17 +9,6 @@ export default (props) => {
   const width = 160;
   const height = 160;
 
-  const dud = [
-    {
-      hours: 100,
-      minutes: 0,
-    },
-    {
-      hours: 100,
-      minutes: 0,
-    },
-  ];
-
   const formatHour = (time) => {
     const pad = (n, z = 2) => (`00${n}`).slice(-z);
 
@@ -41,7 +30,7 @@ export default (props) => {
       </Col>
       <Col span={12}>
         <PieChart
-          data={data ? [data.totalTimeInCombat, data.totalIdleTime] : dud}
+          data={[data.totalTimeInCombat, data.totalIdleTime]}
           width={width}
           height={height}
         />
