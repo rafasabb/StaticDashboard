@@ -8,20 +8,17 @@ import './view3.css';
 
 import { msToTime } from '../../Utils/utils';
 
-// TODO - Mover para Dashboard
-import { UWU } from '../../Constants/fightConstants';
-
 export default (props) => {
   const {
     data, current, selectedPhase, setSelectedPhase,
   } = props;
   const [currentSelection, setCurrentSelection] = useState('a');
+
+  // TODO
   const width = 295;
   const height = 155;
 
-  const setSelected = (select) => {
-    setCurrentSelection(select.target.value);
-  };
+  const setSelected = (s) => setCurrentSelection(s.target.value);
 
   // TODO - Mover a logica para outro lugar
   const createDataset = (fightData, fightProps) => {
@@ -51,23 +48,11 @@ export default (props) => {
     ),
   });
 
-  const currentFight = (fightData, currentF) => {
-    switch (currentF) {
-      case 0:
-        return createDataset(fightData, UWU);
-      default:
-        return null;
-    }
-  };
-
   const currentSelect = (dataset) => {
-    if (!selectedPhase || !dataset) {
+    if (!selectedPhase) {
       return null;
     }
     const currentF = dataset.filter((o) => o.number === selectedPhase)[0];
-    if (!currentF) {
-      return null;
-    }
     return {
       label: currentF.label,
       pulls: currentF.pulls,
@@ -77,7 +62,7 @@ export default (props) => {
       totalTime: currentF.totalTime,
     };
   };
-  const dataset = currentFight(data, current);
+  const dataset = createDataset(data, current);
   const currentSelectedFight = currentSelect(dataset);
   const prog = calcProg(dataset);
   return (

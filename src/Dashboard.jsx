@@ -15,9 +15,8 @@ import View4 from './Views/View4';
 import View5 from './Views/View5';
 import View6 from './Views/View6';
 
-import { UWU } from './Constants/fightConstants';
-
 import { createColumns, createDataSource } from './Utils/tableUtils';
+import { getFightLogs, getFightPhases } from './Utils/utils';
 
 import calcTime from './DataProcessing/calcTime';
 import calcConsistency from './DataProcessing/calcConsistency';
@@ -29,24 +28,15 @@ const {
   Header, Content,
 } = Layout;
 
-const fightCsvUrL = 'https://gist.githubusercontent.com/rafasabb/39a35148e96e144c60d0679eb155321c/raw/dab5fb81e935bd46b5a0ca1bd4c7c953529d0529/fights.csv';
-const reportCsvUrl = 'https://gist.githubusercontent.com/rafasabb/39a35148e96e144c60d0679eb155321c/raw/dab5fb81e935bd46b5a0ca1bd4c7c953529d0529/reports.csv';
-
-function chooseFight(current) {
-  switch (current) {
-    case 0:
-      return [fightCsvUrL, reportCsvUrl];
-    default:
-      return [null, null];
-  }
-}
-
 export default () => {
   // Selection
   const [currentFight, setCurrentFight] = useState(0); // Uwu, Ucob, Tea, etc..
   const [currentPhase, setCurrentPhase] = useState(null); // 1, 2, 3..
   const [currentReport, setCurrentReport] = useState(null); // report code
-
+  console.log(currentFight);
+  // Processed selection
+  const currentFightPhases = getFightPhases(currentFight);
+  console.log(currentFightPhases);
   // Base data
   const [fightData, setFightData] = useState(null);
   const [reportData, setReportData] = useState(null);
@@ -61,7 +51,7 @@ export default () => {
     () => calcPhaseProg(reportData, fightData), [fightData, reportData],
   );
   const fightOrder = useMemo(() => calcFightOrder(reportData, fightData), [fightData, reportData]);
-  const tableColumns = useMemo(() => createColumns(UWU), []);
+  const tableColumns = useMemo(() => createColumns(currentFightPhases), []);
   const tableData = useMemo(() => createDataSource(progressionTotal), [progressionTotal]);
 
   const loadCSV = (fightArray) => {
@@ -73,18 +63,16 @@ export default () => {
     });
   };
 
-  const setFight = (prop) => {
-    setCurrentFight(prop.key);
-  };
-
   useEffect(() => {
-    loadCSV(chooseFight(currentFight));
+    setFightData(null);
+    setReportData(null);
+    loadCSV(getFightLogs(currentFight));
   }, [currentFight]);
 
   return (
     <>
       <Header className="header">
-        <Menu theme="dark" mode="horizontal" defaultSelectedKeys={['0']} onSelect={setFight}>
+        <Menu theme="dark" mode="horizontal" defaultSelectedKeys={['0']} onSelect={(p) => setCurrentFight(p.key)}>
           <Menu.Item key="0">UWU</Menu.Item>
           <Menu.Item key="1">UCOB</Menu.Item>
           <Menu.Item key="2">TEA</Menu.Item>
@@ -116,7 +104,7 @@ export default () => {
                     ? (
                       <View3
                         data={progressionPerPhase}
-                        current={currentFight}
+                        current={currentFightPhases}
                         selectedPhase={currentPhase}
                         setSelectedPhase={setCurrentPhase}
                       />

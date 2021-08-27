@@ -4,6 +4,7 @@ import * as d3 from 'd3';
 
 import { UWU } from '../../Constants/fightConstants';
 
+// TODO - auto resize
 export default (props) => {
   const {
     dataset, setPhase, currentPhase, selection, width, height,

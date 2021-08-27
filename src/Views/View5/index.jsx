@@ -5,6 +5,7 @@ import { useTable, usePagination } from 'react-table';
 import { Row } from 'antd';
 import './view5.css';
 
+// TODO - auto resize
 export default (props) => {
   const {
     tableColumns, tableData, setCurrentReport, currentReport,
@@ -12,6 +13,7 @@ export default (props) => {
   const [thisPageIndex, setThisPageIndex] = useState(0);
   const [thisPageSize, setThisPageSize] = useState(10);
 
+  // TODO - criar outro aquivo para as tabelas
   const makeTable = (tableInstance, localPageSize) => {
     const {
       getTableProps,

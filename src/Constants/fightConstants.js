@@ -26,10 +26,28 @@ export const UWU = [
   },
 ];
 
-export const UCOB = {
+export const UCOB = [
+  {
+    number: 1,
+    name: 'Twintania',
+    color: '#90BE6D',
+  },
+  {
+    number: 2,
+    name: 'Nael',
+    color: '#DB3A34',
+  },
+];
 
-};
-
-export const TEA = {
-
-};
+export const TEA = [
+  {
+    number: 1,
+    name: 'Living Liquid',
+    color: '#90BE6D',
+  },
+  {
+    number: 2,
+    name: 'Limit Cut',
+    color: '#DB3A34',
+  },
+];
