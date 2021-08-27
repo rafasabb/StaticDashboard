@@ -6,6 +6,9 @@ import {
 import BarChart from '../../Charts/BarChart';
 import './view3.css';
 
+import { msToTime } from '../../Utils/utils';
+
+// TODO - Mover para Dashboard
 import { UWU } from '../../Constants/fightConstants';
 
 export default (props) => {
@@ -20,13 +23,7 @@ export default (props) => {
     setCurrentSelection(select.target.value);
   };
 
-  const msToTime = (duration) => {
-    // const milliseconds = Math.floor((duration % 1000) / 100);
-    const minutes = Math.floor((duration / (1000 * 60)) % 60);
-    const hours = Math.floor((duration / (1000 * 60 * 60)));
-    return `${hours < 10 ? `0${hours}` : hours}:${minutes < 10 ? `0${minutes}` : minutes}`;
-  };
-
+  // TODO - Mover a logica para outro lugar
   const createDataset = (fightData, fightProps) => {
     const arr = [];
     fightProps.forEach((p) => {

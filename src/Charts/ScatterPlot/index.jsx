@@ -34,11 +34,6 @@ export default (props) => {
   };
   const colorScale = setColorScale();
 
-  // const highlight = (d) => {
-  // const selectedPhase = d ? d.lastPhase : 0;
-  // setCurrentPhase(selectedPhase);
-  // };
-
   const createScatter = () => dataset.map((d, index) => (
     <g
       key={d.fightStart.getTime() / 1000}

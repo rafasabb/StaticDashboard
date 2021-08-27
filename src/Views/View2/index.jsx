@@ -1,16 +1,11 @@
 /* eslint-disable react/prop-types */
 import React from 'react';
 import { Statistic, Row, Col } from 'antd';
+import { formatHour } from '../../Utils/utils';
 import './view2.css';
 
 export default (props) => {
   const { data } = props;
-
-  const formatHour = (time) => {
-    const pad = (n, z = 2) => (`00${n}`).slice(-z);
-
-    return `${pad(time.hours)}:${pad(time.minutes)}`;
-  };
 
   return (
     <Row id="view2">

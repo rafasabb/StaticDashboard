@@ -5,20 +5,12 @@ import {
 } from 'antd';
 import './view4.css';
 
+import { consistencyColor } from '../../Utils/utils';
+
 const classNames = require('classnames');
 
 export default (props) => {
   const { data } = props;
-
-  const setColor = (consistency) => {
-    if (consistency <= 0.39) {
-      return 'red';
-    }
-    if (consistency >= 0.40 && consistency <= 0.69) {
-      return '#FFC857';
-    }
-    return 'blue';
-  };
 
   return (
     <Row id="view4">
@@ -29,7 +21,7 @@ export default (props) => {
           value={`${(data.medianConsistency.toFixed(2) * 100.0).toFixed(0)}%`}
           valueStyle={{
             // eslint-disable-next-line no-nested-ternary
-            color: setColor(data.medianConsistency),
+            color: consistencyColor(data.medianConsistency),
           }}
         />
       </Row>

@@ -1,5 +1,6 @@
 import * as d3 from 'd3';
 
+// TODO - Consertar essa porra
 const draw = (props) => {
   const { data } = props;
 
