@@ -95,7 +95,7 @@ export default () => {
   return (
     <>
       <Header className="header">
-        <Menu theme="dark" mode="horizontal" defaultSelectedKeys={[{params}]} onSelect={(p) => setCurrentFight(p.key)}>
+        <Menu theme="dark" mode="horizontal" defaultSelectedKeys={[{ params }]} onSelect={(p) => setCurrentFight(p.key)}>
           <Menu.Item key="0">UWU</Menu.Item>
           <Menu.Item key="1">UCOB</Menu.Item>
           <Menu.Item key="2">TEA</Menu.Item>
