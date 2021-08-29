@@ -11,6 +11,7 @@ export default (props) => {
     currentPhase,
     currentReport,
     setCurrentPhase,
+    currentFightPhases,
   } = props;
   const [dimensions, setDimensions] = useState([100, 100]); // [width, height]
 
@@ -28,6 +29,7 @@ export default (props) => {
           setCurrentPhase={setCurrentPhase}
           currentReport={currentReport}
           dimensions={dimensions}
+          currentFightPhases={currentFightPhases}
         />
       </div>
     </Row>

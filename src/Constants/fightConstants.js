@@ -37,6 +37,11 @@ export const UCOB = [
     name: 'Nael',
     color: '#DB3A34',
   },
+  {
+    number: 3,
+    name: 'Bahamuth',
+    color: 'teal',
+  },
 ];
 
 export const TEA = [
@@ -47,7 +52,7 @@ export const TEA = [
   },
   {
     number: 2,
-    name: 'Limit Cut',
+    name: 'BJ/CC',
     color: '#DB3A34',
   },
 ];

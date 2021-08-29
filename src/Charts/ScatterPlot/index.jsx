@@ -2,8 +2,6 @@
 import React, { useEffect, useState } from 'react';
 import * as d3 from 'd3';
 
-import { UWU } from '../../Constants/fightConstants';
-
 // TODO - auto resize
 export default (props) => {
   const {
@@ -12,6 +10,7 @@ export default (props) => {
     setCurrentPhase,
     currentReport,
     dimensions,
+    currentFightPhases,
   } = props;
   const [width, height] = dimensions;
   const [scatter, setScatter] = useState(null);
@@ -28,8 +27,8 @@ export default (props) => {
   const xScale = d3.scaleLinear().domain([0, dataset.length]).range([0, innerWidth]);
   const yScale = d3.scaleLinear().domain([0, 100.0]).range([innerHeight, 0]);
   const setColorScale = () => {
-    const domain = UWU.map((fight) => fight.number);
-    const range = UWU.map((fight) => fight.color);
+    const domain = currentFightPhases.map((fight) => fight.number);
+    const range = currentFightPhases.map((fight) => fight.color);
     return d3.scaleOrdinal().domain(domain).range(range);
   };
   const colorScale = setColorScale();

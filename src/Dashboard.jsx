@@ -16,7 +16,7 @@ import View5 from './Views/View5';
 import View6 from './Views/View6';
 
 import { createColumns, createDataSource } from './Utils/tableUtils';
-import { getFightLogs, getFightPhases } from './Utils/utils';
+import { getFightLogs, getFightPhases, getFightIdByName } from './Utils/utils';
 
 import calcTime from './DataProcessing/calcTime';
 import calcConsistency from './DataProcessing/calcConsistency';
@@ -28,9 +28,20 @@ const {
   Header, Content,
 } = Layout;
 
+const getParams = () => {
+  const { search } = window.location;
+  const params = new URLSearchParams(search);
+  const foo = params.get('fight');
+  if (foo) {
+    return getFightIdByName(foo.toLowerCase());
+  }
+  return (0);
+};
+const params = getParams();
+
 export default () => {
   // Selection
-  const [currentFight, setCurrentFight] = useState(0); // Uwu, Ucob, Tea, etc..
+  const [currentFight, setCurrentFight] = useState(params); // Uwu, Ucob, Tea, etc..
   const [currentPhase, setCurrentPhase] = useState(null); // 1, 2, 3..
   const [currentReport, setCurrentReport] = useState(null); // report code
 
@@ -84,7 +95,7 @@ export default () => {
   return (
     <>
       <Header className="header">
-        <Menu theme="dark" mode="horizontal" defaultSelectedKeys={['0']} onSelect={(p) => setCurrentFight(p.key)}>
+        <Menu theme="dark" mode="horizontal" defaultSelectedKeys={[{params}]} onSelect={(p) => setCurrentFight(p.key)}>
           <Menu.Item key="0">UWU</Menu.Item>
           <Menu.Item key="1">UCOB</Menu.Item>
           <Menu.Item key="2">TEA</Menu.Item>
@@ -161,6 +172,7 @@ export default () => {
                         currentPhase={currentPhase}
                         currentReport={currentReport}
                         setCurrentPhase={setCurrentPhase}
+                        currentFightPhases={currentFightPhases}
                       />
                     ) : <></>
                 }

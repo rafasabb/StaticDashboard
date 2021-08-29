@@ -27,6 +27,19 @@ export const getFightPhases = (current) => {
   }
 };
 
+export const getFightIdByName = (current) => {
+  switch (current.toLowerCase()) {
+    case 'uwu':
+      return 0;
+    case 'ucob':
+      return 1;
+    case 'tea':
+      return 2;
+    default:
+      return null;
+  }
+};
+
 export const formatHour = (time) => {
   const pad = (n, z = 2) => (`00${n}`).slice(-z);
 
