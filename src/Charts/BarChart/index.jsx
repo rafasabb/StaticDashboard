@@ -2,6 +2,8 @@
 import React, { useEffect, useState } from 'react';
 import * as d3 from 'd3';
 
+import { currentPhaseLoc } from '../../Utils/utils';
+
 // TODO - auto resize
 export default (props) => {
   const {
@@ -32,7 +34,6 @@ export default (props) => {
     return d3.scaleOrdinal().domain(domain).range(range);
   };
   const colorScale = setColorScale();
-
   const createBars = () => dataset.map((d) => (
     <g
       key={d.name}
@@ -40,7 +41,7 @@ export default (props) => {
       onMouseLeave={() => setPhase(null)}
     >
       <rect
-        className={`bar p${d.phase}`}
+        className={`bar p${currentPhaseLoc(currentFightPhases, d.phase)}`}
         x={0}
         y={yScale(d.name)}
         width={xScale(selection === 'a' ? d.wipesBeforeProg : d.progTime)}
@@ -61,13 +62,14 @@ export default (props) => {
   ));
 
   useEffect(() => {
-    if (currentPhase) {
+    const cPhase = currentPhaseLoc(currentFightPhases, currentPhase);
+    if (cPhase !== -1) {
       d3.selectAll('.bar')
         .transition()
         .duration(200)
         .style('fill', 'lightgrey');
 
-      d3.selectAll(`.p${currentPhase}`)
+      d3.selectAll(`.p${cPhase}`)
         .transition()
         .duration(200)
         .style('fill', colorScale(currentPhase));

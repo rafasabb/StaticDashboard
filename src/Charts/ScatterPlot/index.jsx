@@ -2,6 +2,8 @@
 import React, { useEffect, useState } from 'react';
 import * as d3 from 'd3';
 
+import { currentPhaseLoc } from '../../Utils/utils';
+
 // TODO - auto resize
 export default (props) => {
   const {
@@ -40,7 +42,7 @@ export default (props) => {
       onMouseLeave={() => setCurrentPhase(null)}
     >
       <circle
-        className={`dot p${d.lastPhase} k${d.kill}`}
+        className={`dot p${currentPhaseLoc(currentFightPhases, d.phase)} k${d.kill}`}
         cx={xScale(index)}
         cy={yScale(d.fightPercent)}
         r={4}
@@ -53,14 +55,16 @@ export default (props) => {
   ));
 
   useEffect(() => {
-    if (currentPhase) {
+    console.log(currentPhase);
+    const cPhase = currentPhaseLoc(currentFightPhases, currentPhase);
+    if (cPhase !== -1) {
       d3.selectAll('.dot')
         .transition()
         .duration(200)
         .style('fill', 'lightgrey')
         .attr('r', 2);
 
-      d3.selectAll(`.p${currentPhase}`)
+      d3.selectAll(`.p${cPhase}`)
         .transition()
         .duration(200)
         .style('fill', colorScale(currentPhase))

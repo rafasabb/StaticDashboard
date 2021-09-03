@@ -11,7 +11,6 @@ const classNames = require('classnames');
 
 export default (props) => {
   const { data } = props;
-
   return (
     <Row id="view">
       <Row className="margin_bot">

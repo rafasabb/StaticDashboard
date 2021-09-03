@@ -6,7 +6,7 @@ import {
 import BarChart from '../../Charts/BarChart';
 import './view3.css';
 
-import { msToTime } from '../../Utils/utils';
+import { msToTime, currentPhaseLoc } from '../../Utils/utils';
 
 export default (props) => {
   const {
@@ -14,6 +14,8 @@ export default (props) => {
   } = props;
   const [currentSelection, setCurrentSelection] = useState('a');
   const [dimensions, setDimensions] = useState([100, 100]); // [width, height]
+
+  const phaseLoc = currentPhaseLoc(currentFightPhases, currentPhase);
 
   const divRef = useRef(null);
   const setSelected = (s) => setCurrentSelection(s.target.value);
@@ -34,25 +36,25 @@ export default (props) => {
           <Statistic
             // eslint-disable-next-line no-nested-ternary
             title={(currentPhase)
-              ? data[currentPhase - 1].name
+              ? data[phaseLoc].name
               : (currentSelection === 'a')
                 ? 'Pulls'
                 : 'Hours'}
             // eslint-disable-next-line no-nested-ternary
             value={(currentPhase)
               ? (currentSelection === 'a'
-                ? data[currentPhase - 1].wipesBeforeProg
-                : msToTime(data[currentPhase - 1].progTime))
+                ? data[phaseLoc].wipesBeforeProg
+                : msToTime(data[phaseLoc].progTime))
               : (currentSelection === 'a'
                 ? data.reduce((n, d) => n + d.wipesPerPhase, 0)
                 : msToTime(data.reduce((n, d) => n + d.progTime, 0))
               )}
-            valueStyle={{ color: (currentPhase) ? data[currentPhase - 1].color : '#000' }}
+            valueStyle={{ color: (currentPhase) ? data[phaseLoc].color : '#000' }}
           />
         </Row>
         <Row className="title_row small_title">
           { (currentPhase)
-            ? <Statistic title="Wipes" value={currentSelection === 'a' ? data[currentPhase - 1].wipesPerPhase : msToTime(data[currentPhase - 1].totalTime)} valueStyle={{ color: data[currentPhase - 1].color }} />
+            ? <Statistic title="Wipes" value={currentSelection === 'a' ? data[phaseLoc].wipesPerPhase : msToTime(data[phaseLoc].totalTime)} valueStyle={{ color: data[phaseLoc].color }} />
             : <></> }
         </Row>
       </Col>

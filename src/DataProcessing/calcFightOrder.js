@@ -9,7 +9,7 @@ export default (reports, fights) => {
         return {
           fightStart: new Date(reportStart.getTime() + parseInt(fight.start_time, 10)),
           fightPercent: parseFloat(fight.fight_percent),
-          lastPhase: parseInt(fight.last_phase, 10),
+          lastPhase: fight.intermission ? parseFloat(`${fight.last_phase}.${fight.intermission}`) : parseInt(fight.last_phase, 10),
           kill: !!+fight.kill,
           consistency: parseFloat(fight.consistency),
           code: fight.report_code,

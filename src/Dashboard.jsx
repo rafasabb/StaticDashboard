@@ -11,7 +11,6 @@ import { csv } from 'd3';
 import View1 from './Views/View1';
 import View2 from './Views/View2';
 import View3 from './Views/View3';
-import View4 from './Views/View4';
 import View5 from './Views/View5';
 import View6 from './Views/View6';
 
@@ -19,7 +18,6 @@ import { createColumns, createDataSource } from './Utils/tableUtils';
 import { getFightLogs, getFightPhases, getFightIdByName } from './Utils/utils';
 
 import calcTime from './DataProcessing/calcTime';
-import calcConsistency from './DataProcessing/calcConsistency';
 import calcProgressionPerPhase from './DataProcessing/calcProgressionPerPhase';
 import calcPhaseProg from './DataProcessing/calcPhaseProg';
 import calcFightOrder from './DataProcessing/calcFightOrder';
@@ -56,9 +54,6 @@ export default () => {
   const processedData = useMemo(
     () => calcTime(reportData, fightData), [fightData, reportData],
   );
-  const processedConsistency = useMemo(
-    () => calcConsistency(reportData), [reportData],
-  );
   const progressionPerPhase = useMemo(
     () => calcProgressionPerPhase(
       reportData, fightData, currentFightPhases,
@@ -71,10 +66,10 @@ export default () => {
     () => calcFightOrder(reportData, fightData), [fightData, reportData],
   );
   const tableColumns = useMemo(
-    () => createColumns(currentFightPhases), [],
+    () => createColumns(currentFightPhases), [progressionTotal],
   );
   const tableData = useMemo(
-    () => createDataSource(progressionTotal), [progressionTotal],
+    () => createDataSource(currentFightPhases, progressionTotal), [progressionTotal],
   );
 
   const loadCSV = (fightArray) => {
@@ -138,9 +133,7 @@ export default () => {
 
             <Col xs={24} sm={12} md={12} lg={6} xl={5}>
               <Content className="pane" style={{ height: 160, marginBottom: '10px' }}>
-                {
-                  processedConsistency ? (<View4 data={processedConsistency} />) : <></>
-                }
+                Placeholder
               </Content>
             </Col>
           </Row>

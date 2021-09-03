@@ -27,6 +27,10 @@ export const getFightPhases = (current) => {
   }
 };
 
+export const currentPhaseLoc = (currentFightPhases, num) => currentFightPhases.findIndex(
+  (x) => x.number === num,
+);
+
 export const getFightIdByName = (current) => {
   switch (current.toLowerCase()) {
     case 'uwu':
