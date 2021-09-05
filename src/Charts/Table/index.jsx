@@ -1,19 +1,12 @@
-/* eslint-disable react/jsx-props-no-spreading */
 /* eslint-disable react/prop-types */
-import React, { useMemo, useState } from 'react';
+/* eslint-disable react/jsx-props-no-spreading */
+import React, { useState, useMemo } from 'react';
 import { useTable, usePagination } from 'react-table';
-import { Row } from 'antd';
-import './view5.css';
 
-// TODO - fix
 export default (props) => {
-  const {
-    tableColumns, tableData, currentFightPhases, setCurrentReport, currentReport, currentPhase,
-  } = props;
+  const { tableColumns, tableData } = props;
   const [thisPageIndex, setThisPageIndex] = useState(0);
-  const [thisPageSize, setThisPageSize] = useState(10);
-
-  // TODO - criar outro aquivo para as tabelas
+  const [thisPageSize, setThisPageSize] = useState(7);
   const makeTable = (tableInstance, localPageSize) => {
     const {
       getTableProps,
@@ -36,21 +29,15 @@ export default (props) => {
       setThisPageSize(localPageSize);
     }
     return (
-      <>
-        <table className="width_max" {...getTableProps()}>
-          <colgroup>
-            <col />
-            {
-              currentFightPhases.map((p) => (<col key={p.number} style={{ backgroundColor: (currentPhase === p.number) ? p.color : '' }} />))
-            }
-          </colgroup>
+      <div className="flex flex-col justify-between h-full">
+        <table className="w-full p-5 text-gray-700" {...getTableProps()}>
           <thead>
             {
               headerGroups.map((headerGroup) => (
                 <tr {...headerGroup.getHeaderGroupProps()}>
                   {
                   headerGroup.headers.map((column) => (
-                    <th {...column.getHeaderProps()}>
+                    <th className="text-center text-blue-900" {...column.getHeaderProps()}>
                       { column.render('Header') }
                     </th>
                   ))
@@ -65,10 +52,8 @@ export default (props) => {
                 prepareRow(row);
                 return (
                   <tr
+                    className="text-center"
                     {...row.getRowProps()}
-                    className={row.original.code === currentReport ? 'selected' : ''}
-                    onMouseEnter={() => setCurrentReport(row.original.code)}
-                    onMouseLeave={() => (null)}
                   >
                     {
                     row.cells.map((cell) => (
@@ -83,24 +68,21 @@ export default (props) => {
             }
           </tbody>
         </table>
-        <div className="pagination">
-          <button type="button" onClick={() => { gotoPage(0); setThisPageIndex(0); }} disabled={!canPreviousPage}>
-            {'<<'}
-          </button>
-          {' '}
-          <button type="button" onClick={() => { previousPage(); setThisPageIndex(thisPageIndex - 1); }} disabled={!canPreviousPage}>
-            {'<'}
-          </button>
-          {' '}
-          <button type="button" onClick={() => { nextPage(); setThisPageIndex(thisPageIndex + 1); }} disabled={!canNextPage}>
-            {'>'}
-          </button>
-          {' '}
-          <button type="button" onClick={() => { gotoPage(pageCount - 1); setThisPageIndex(pageCount - 1); }} disabled={!canNextPage}>
-            {'>>'}
-          </button>
+        <div className="flex flex-nowrap items-center justify-center">
+          <span>
+            <button className="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-1 px-1 rounded-l" type="button" onClick={() => { gotoPage(0); setThisPageIndex(0); }} disabled={!canPreviousPage}>
+              {'<<'}
+            </button>
+          </span>
           {' '}
           <span>
+            <button className="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-1 px-1" type="button" onClick={() => { previousPage(); setThisPageIndex(thisPageIndex - 1); }} disabled={!canPreviousPage}>
+              {'<'}
+            </button>
+          </span>
+          {' '}
+          {' '}
+          <span className="bg-gray-300 text-gray-800 font-bold py-1 px-1">
             Page
             {' '}
             <strong>
@@ -108,8 +90,19 @@ export default (props) => {
             </strong>
             {' '}
           </span>
+          <span>
+            <button className="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-1 px-1" type="button" onClick={() => { nextPage(); setThisPageIndex(thisPageIndex + 1); }} disabled={!canNextPage}>
+              {'>'}
+            </button>
+          </span>
+          {' '}
+          <span>
+            <button className="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-1 px-1 rounded-r" type="button" onClick={() => { gotoPage(pageCount - 1); setThisPageIndex(pageCount - 1); }} disabled={!canNextPage}>
+              {'>>'}
+            </button>
+          </span>
         </div>
-      </>
+      </div>
     );
   };
 
@@ -125,13 +118,13 @@ export default (props) => {
     usePagination,
   );
   const table = useMemo(
-    () => makeTable(tableInstance, 10),
-    [tableColumns, tableData, thisPageIndex, thisPageSize, currentReport, currentPhase],
+    () => makeTable(tableInstance, thisPageSize),
+    [tableColumns, tableData, thisPageIndex, thisPageSize],
   );
 
   return (
-    <Row id="view">
-      {table}
-    </Row>
+    <>
+      { table }
+    </>
   );
 };

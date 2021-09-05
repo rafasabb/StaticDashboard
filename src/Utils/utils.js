@@ -14,6 +14,19 @@ export const getFightLogs = (current) => {
   }
 };
 
+export const getFightName = (current) => {
+  switch (parseInt(current, 10)) {
+    case 0:
+      return ['The Weapon\'s Refrain', 'green'];
+    case 1:
+      return ['The Unending Coil of Bahamut', 'purple'];
+    case 2:
+      return ['The Epic of Alexander', 'blue'];
+    default:
+      return ['', 'grey'];
+  }
+};
+
 export const getFightPhases = (current) => {
   switch (parseInt(current, 10)) {
     case 0:

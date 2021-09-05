@@ -2,27 +2,13 @@
 @import "tailwindcss/components";
 @import "tailwindcss/utilities";
 
-body {
-  background-color: #f0f2f5;
+td:first-child {
+  font-weight: bold;
 }
 
-.pane {
-  padding: 5px 15px;
-  background: #fff;
+tr:nth-child(even) {
+  background-color: #eee;
 }
-  [data-theme="dark"] .pane {
-    background: #303030;
-  }
-
-.text_center {
-  text-align: center;
-}
-
-.ant-statistic-title {
-  margin-bottom: -5px;
-}
-
-.value {
-  font-size: 120%;
-  fill: white;
+tr:nth-child(od) {
+  background-color: #fff;
 }

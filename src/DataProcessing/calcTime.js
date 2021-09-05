@@ -4,7 +4,6 @@ export default (reports, fights) => {
   }
   let earliestDate = new Date(2047483647000);
   let latestDate = new Date(0);
-  let totalCombatTime = 0;
   let totalProgressionTime = 0;
 
   const msToTime = (duration) => {
@@ -32,19 +31,9 @@ export default (reports, fights) => {
     if (Date.parse(reportEnd) > Date.parse(latestDate)) {
       latestDate = reportEnd;
     }
-
-    fights.forEach((fight) => {
-      if (fight.report_code === report.code) {
-        const fightStart = new Date(reportStart.getTime() + parseInt(fight.start_time, 10));
-        const fightEnd = new Date(reportStart.getTime() + parseInt(fight.end_time, 10));
-        totalCombatTime += (fightEnd - fightStart);
-      }
-    });
   });
 
   const totalProgressionHours = msToTime(totalProgressionTime);
-  const totalTimeInCombat = msToTime(totalCombatTime);
-  const totalIdleTime = msToTime(totalProgressionTime - totalCombatTime);
   const weeksOfProgression = weeksBetween(earliestDate, latestDate);
   const totalRaidDays = reports.length;
   const totalDaysToClear = daysBetween(earliestDate, latestDate);
@@ -54,8 +43,6 @@ export default (reports, fights) => {
 
   return {
     totalProgressionHours,
-    totalTimeInCombat,
-    totalIdleTime,
     weeksOfProgression,
     totalDaysToClear,
     totalRaidDays,
