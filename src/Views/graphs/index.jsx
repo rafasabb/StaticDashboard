@@ -19,8 +19,6 @@ export default (props) => {
     deathsTableData,
   } = props;
   const [dimensions, setDimensions] = useState([100, 100]);
-  console.log(deathsTableColumns);
-  console.log(deathsTableData);
   return (
     <div className="flex flex-row flex-wrap flex-grow mt-2">
       <GraphCard name="Pull total" dimensions={dimensions} setDimensions={setDimensions} dud>
