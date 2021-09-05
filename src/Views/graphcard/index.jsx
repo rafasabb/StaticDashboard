@@ -2,21 +2,29 @@
 /* eslint-disable react/prop-types */
 import React, { useRef, useEffect } from 'react';
 
+import { debounce } from '../../Utils/utils';
+
 export default (props) => {
-  const { name, children, setDimensions } = props;
+  const {
+    name, children, setDimensions, dud,
+  } = props;
   const divRef = useRef(null);
-  let pastRef = null;
 
+  // TODO Fix resize
   useEffect(() => {
-    setDimensions([divRef.current.scrollWidth - 40, divRef.current.scrollHeight - 40]);
-  }, []);
-
-  useEffect(() => {
-    if (pastRef !== divRef) {
-      pastRef = divRef;
+    const debouncedHandleResize = debounce(() => {
       setDimensions([divRef.current.scrollWidth - 40, divRef.current.scrollHeight - 40]);
+    }, 1000);
+    setDimensions([divRef.current.scrollWidth - 40, divRef.current.scrollHeight - 40]);
+    if (dud) {
+      window.addEventListener('resize', debouncedHandleResize);
+
+      return () => {
+        window.removeEventListener('resize', debouncedHandleResize);
+      };
     }
-  });
+    return () => {};
+  }, []);
 
   return (
     <div className="w-full md:w-1/2 xl:w-1/3 p-6 h-96">

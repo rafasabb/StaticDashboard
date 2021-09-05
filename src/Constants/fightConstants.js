@@ -50,6 +50,18 @@ export const UCOB = [
     name: 'Bahamuth',
     color: 'teal',
   },
+  {
+    number: 4,
+    intermission: 0,
+    name: 'Adds',
+    color: 'teal',
+  },
+  {
+    number: 5,
+    intermission: 0,
+    name: 'Golden',
+    color: 'teal',
+  },
 ];
 
 export const TEA = [
@@ -70,5 +82,23 @@ export const TEA = [
     intermission: 0,
     name: 'BJ/CC',
     color: '#DB3A34',
+  },
+  {
+    number: 2.1,
+    intermission: 1,
+    name: 'Temporal Stasis',
+    color: 'teal',
+  },
+  {
+    number: 3,
+    intermission: 0,
+    name: 'Alexander Prime',
+    color: 'teal',
+  },
+  {
+    number: 4,
+    intermission: 0,
+    name: 'Perfect Alexander',
+    color: 'teal',
   },
 ];

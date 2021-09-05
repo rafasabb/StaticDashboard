@@ -6,7 +6,7 @@ import { currentPhaseLoc } from '../../Utils/utils';
 
 export default (props) => {
   const {
-    dataset, currentFightPhases, dimensions, selection, tickajust,
+    dataset, currentFightPhases, dimensions, selection, tick,
   } = props;
   const [width, height] = dimensions;
   const [bars, setBars] = useState(null);
@@ -68,7 +68,7 @@ export default (props) => {
           xScale.ticks().map((tickValue) => (
             <g key={xScale(tickValue)} transform={`translate(${xScale(tickValue)},0)`}>
               <line y2={innerHeight} stroke="#C0C0BB" />
-              <text dy=".71em" style={{ textAnchor: 'middle', fill: '#C0C0BB' }} y={innerHeight + 3}>{Math.floor(tickValue * tickajust)}</text>
+              <text dy=".71em" style={{ textAnchor: 'middle', fill: '#C0C0BB' }} y={innerHeight + 3}>{Math.floor(tickValue * tick)}</text>
             </g>
           ))
         }

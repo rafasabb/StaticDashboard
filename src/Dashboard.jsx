@@ -6,11 +6,11 @@ import { csv } from 'd3';
 
 import Header from './Views/header';
 import Sidebar from './Views/sidebar';
-import Titlebar from './Views/titlebar';
+import TitleBar from './Views/titlebar';
 import Stats from './Views/stats';
 import Graphs from './Views/graphs';
 
-import { createColumns, createDataSource } from './Utils/tableUtils';
+import { createFightColumns, createFightDataSource, createDeathColumns } from './Utils/tableUtils';
 import { getFightLogs, getFightPhases, getFightIdByName } from './Utils/utils';
 
 import calcTime from './DataProcessing/calcTime';
@@ -39,6 +39,7 @@ export default () => {
   // Base data
   const [fightData, setFightData] = useState(null);
   const [reportData, setReportData] = useState(null);
+  const [allDeathsData, setAllDeathsData] = useState(null);
 
   // Processed data
   const processedData = useMemo(
@@ -55,12 +56,14 @@ export default () => {
   const fightOrder = useMemo(
     () => calcFightOrder(reportData, fightData), [fightData, reportData],
   );
-  const tableColumns = useMemo(
-    () => createColumns(currentFightPhases), [progressionTotal],
+  const fightTableColumns = useMemo(
+    () => createFightColumns(currentFightPhases), [progressionTotal],
   );
-  const tableData = useMemo(
-    () => createDataSource(currentFightPhases, progressionTotal), [progressionTotal],
+  const fightTableData = useMemo(
+    () => createFightDataSource(currentFightPhases, progressionTotal), [progressionTotal],
   );
+
+  const deathsTableColumns = createDeathColumns();
 
   const loadCSV = (fightArray) => {
     csv(fightArray[0]).then((data) => {
@@ -68,6 +71,9 @@ export default () => {
     });
     csv(fightArray[1]).then((data) => {
       setReportData(data);
+    });
+    csv(fightArray[2]).then((data) => {
+      setAllDeathsData(data);
     });
   };
 
@@ -83,16 +89,23 @@ export default () => {
       <div className="flex flex-col md:flex-row">
         <Sidebar currentFight={currentFight} setCurrentFight={setCurrentFight} />
         <div className="main-content flex-1 bg-gray-100 mt-12 md:mt-2 pb-24 md:pb-5">
-          <Titlebar currentFight={currentFight} />
+          <TitleBar currentFight={currentFight} />
           {processedData ? (<Stats data={processedData} />) : <></>}
           {
-            (fightOrder && progressionPerPhase && tableColumns && tableData)
+            (fightOrder
+              && progressionPerPhase
+              && fightTableColumns
+              && fightTableData
+              && allDeathsData
+            )
               ? (
                 <Graphs
                   fightOrder={fightOrder}
                   progressionPerPhase={progressionPerPhase}
-                  tableColumns={tableColumns}
-                  tableData={tableData}
+                  fightTableColumns={fightTableColumns}
+                  fightTableData={fightTableData}
+                  deathsTableColumns={deathsTableColumns}
+                  deathsTableData={allDeathsData.filter((o) => o.name !== '')}
                   currentFightPhases={currentFightPhases}
                 />
               ) : <></>

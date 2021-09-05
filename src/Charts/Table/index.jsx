@@ -4,9 +4,11 @@ import React, { useState, useMemo } from 'react';
 import { useTable, usePagination } from 'react-table';
 
 export default (props) => {
-  const { tableColumns, tableData } = props;
+  const {
+    tableColumns, tableData, pgSize, pagination,
+  } = props;
   const [thisPageIndex, setThisPageIndex] = useState(0);
-  const [thisPageSize, setThisPageSize] = useState(7);
+  const [thisPageSize, setThisPageSize] = useState(pgSize);
   const makeTable = (tableInstance, localPageSize) => {
     const {
       getTableProps,
@@ -68,40 +70,68 @@ export default (props) => {
             }
           </tbody>
         </table>
-        <div className="flex flex-nowrap items-center justify-center">
-          <span>
-            <button className="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-1 px-1 rounded-l" type="button" onClick={() => { gotoPage(0); setThisPageIndex(0); }} disabled={!canPreviousPage}>
-              {'<<'}
-            </button>
-          </span>
+        {pagination
+          ? (
+            <Pagination
+              canPreviousPage={canPreviousPage}
+              canNextPage={canNextPage}
+              pageIndex={pageIndex}
+              pageOptions={pageOptions}
+              pageCount={pageCount}
+              nextPage={nextPage}
+              previousPage={previousPage}
+              gotoPage={gotoPage}
+            />
+          ) : <></>}
+      </div>
+    );
+  };
+
+  const Pagination = (props2) => {
+    const {
+      canPreviousPage,
+      canNextPage,
+      pageIndex,
+      pageOptions,
+      pageCount,
+      nextPage,
+      previousPage,
+      gotoPage,
+    } = props2;
+    return (
+      <div className="flex flex-nowrap items-center justify-center">
+        <span>
+          <button className="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-1 px-1 rounded-l" type="button" onClick={() => { gotoPage(0); setThisPageIndex(0); }} disabled={!canPreviousPage}>
+            {'<<'}
+          </button>
+        </span>
+        {' '}
+        <span>
+          <button className="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-1 px-1" type="button" onClick={() => { previousPage(); setThisPageIndex(thisPageIndex - 1); }} disabled={!canPreviousPage}>
+            {'<'}
+          </button>
+        </span>
+        {' '}
+        {' '}
+        <span className="bg-gray-300 text-gray-800 font-bold py-1 px-1">
+          Page
           {' '}
-          <span>
-            <button className="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-1 px-1" type="button" onClick={() => { previousPage(); setThisPageIndex(thisPageIndex - 1); }} disabled={!canPreviousPage}>
-              {'<'}
-            </button>
-          </span>
+          <strong>
+            {`${pageIndex + 1} of ${pageOptions.length}`}
+          </strong>
           {' '}
-          {' '}
-          <span className="bg-gray-300 text-gray-800 font-bold py-1 px-1">
-            Page
-            {' '}
-            <strong>
-              {`${pageIndex + 1} of ${pageOptions.length}`}
-            </strong>
-            {' '}
-          </span>
-          <span>
-            <button className="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-1 px-1" type="button" onClick={() => { nextPage(); setThisPageIndex(thisPageIndex + 1); }} disabled={!canNextPage}>
-              {'>'}
-            </button>
-          </span>
-          {' '}
-          <span>
-            <button className="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-1 px-1 rounded-r" type="button" onClick={() => { gotoPage(pageCount - 1); setThisPageIndex(pageCount - 1); }} disabled={!canNextPage}>
-              {'>>'}
-            </button>
-          </span>
-        </div>
+        </span>
+        <span>
+          <button className="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-1 px-1" type="button" onClick={() => { nextPage(); setThisPageIndex(thisPageIndex + 1); }} disabled={!canNextPage}>
+            {'>'}
+          </button>
+        </span>
+        {' '}
+        <span>
+          <button className="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-1 px-1 rounded-r" type="button" onClick={() => { gotoPage(pageCount - 1); setThisPageIndex(pageCount - 1); }} disabled={!canNextPage}>
+            {'>>'}
+          </button>
+        </span>
       </div>
     );
   };

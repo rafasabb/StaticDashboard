@@ -4,11 +4,11 @@ import { UWUParses, UCOBParses, TEAParses } from '../Constants/dataConstants';
 export const getFightLogs = (current) => {
   switch (parseInt(current, 10)) {
     case 0:
-      return [UWUParses.fightCsvUrL, UWUParses.reportCsvUrl];
+      return [UWUParses.fightCsvUrL, UWUParses.reportCsvUrl, UWUParses.allDeathsCsvUrl];
     case 1:
-      return [UCOBParses.fightCsvUrL, UCOBParses.reportCsvUrl];
+      return [UCOBParses.fightCsvUrL, UCOBParses.reportCsvUrl, UCOBParses.allDeathsCsvUrl];
     case 2:
-      return [TEAParses.fightCsvUrL, TEAParses.reportCsvUrl];
+      return [TEAParses.fightCsvUrL, TEAParses.reportCsvUrl, TEAParses.allDeathsCsvUrl];
     default:
       return [null, null];
   }
@@ -78,4 +78,15 @@ export const consistencyColor = (consistency) => {
     return '#FFC857';
   }
   return 'blue';
+};
+
+export const debounce = (fn, ms) => {
+  let timer;
+  return () => {
+    clearTimeout(timer);
+    timer = setTimeout(() => {
+      timer = null;
+      fn.apply(this);
+    }, ms);
+  };
 };

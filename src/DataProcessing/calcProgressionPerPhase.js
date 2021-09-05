@@ -38,9 +38,9 @@ export default (reports, fights, phases) => {
 
   const wipesBeforeProg = wipesPerPhase.map(
     (p, i, arr) => {
-      const current = currentPhaseLoc(phases, p[0].lastPhase);
-      const next = arr[current + 1];
-      const newPhaseProgDate = next ? next[0].fightDate : new Date(8640000000000000);
+      const current = p.length !== 0 ? currentPhaseLoc(phases, p[0].lastPhase) : -1;
+      const next = arr[current + 1] ? arr[current + 1] : [];
+      const newPhaseProgDate = next.length !== 0 ? next[0].fightDate : new Date(8640000000000000);
       return p.map((pw) => ((pw.fightDate < newPhaseProgDate) ? pw : null)).filter((e) => e);
     },
   );

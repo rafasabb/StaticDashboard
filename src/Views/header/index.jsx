@@ -14,7 +14,7 @@ export default () => {
         </div>
         <div className="flex flex-1 md:w-1/3 justify-center md:justify-start text-white px-2">
           <span className="relative w-full">
-            <select name="" id="" className="w-full bg-gray-900 text-white transition border border-transparent focus:outline-none focus:border-gray-400 rounded py-3 px-2 pl-10 apperance-none leading-normal">
+            <select name="" id="" className="w-full bg-gray-900 text-white transition border border-transparent focus:outline-none focus:border-gray-400 rounded py-3 px-2 pl-10 appearance-none leading-normal">
               <option value="">All Dates</option>
             </select>
           </span>

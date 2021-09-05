@@ -2,7 +2,7 @@
 /* eslint-disable react/prop-types */
 import React, { useState } from 'react';
 
-import Graphcard from '../graphcard';
+import GraphCard from '../graphcard';
 
 import ScatterPlot from '../../Charts/ScatterPlot';
 import BarChart from '../../Charts/BarChart';
@@ -10,60 +10,78 @@ import Table from '../../Charts/Table';
 
 export default (props) => {
   const {
-    fightOrder, progressionPerPhase, currentFightPhases, tableColumns, tableData,
+    fightOrder,
+    progressionPerPhase,
+    currentFightPhases,
+    fightTableColumns,
+    fightTableData,
+    deathsTableColumns,
+    deathsTableData,
   } = props;
   const [dimensions, setDimensions] = useState([100, 100]);
+  console.log(deathsTableColumns);
+  console.log(deathsTableData);
   return (
     <div className="flex flex-row flex-wrap flex-grow mt-2">
-      <Graphcard name="Pull total" setDimensions={setDimensions}>
+      <GraphCard name="Pull total" dimensions={dimensions} setDimensions={setDimensions} dud>
         <ScatterPlot
           dataset={fightOrder}
           dimensions={dimensions}
           currentFightPhases={currentFightPhases}
         />
-      </Graphcard>
-      <Graphcard name="Wipes antes da prog" setDimensions={setDimensions}>
+      </GraphCard>
+      <GraphCard name="Mortes por mecanica" dimensions={dimensions} setDimensions={setDimensions} dud={false}>
+        <Table
+          tableColumns={deathsTableColumns}
+          tableData={deathsTableData}
+          pgSize={8}
+          pagination={false}
+        />
+      </GraphCard>
+      <GraphCard name="Relação dos Dias" dimensions={dimensions} setDimensions={setDimensions} dud={false}>
+        <Table
+          tableColumns={fightTableColumns}
+          tableData={fightTableData}
+          pgSize={7}
+          pagination
+        />
+      </GraphCard>
+      <GraphCard name="Wipes antes da prog" dimensions={dimensions} setDimensions={setDimensions} dud={false}>
         <BarChart
           dataset={progressionPerPhase}
           dimensions={dimensions}
           currentFightPhases={currentFightPhases}
           selection="wipesBeforeProg"
-          tickajust={1}
+          tick={1}
         />
-      </Graphcard>
-      <Graphcard name="Wipes Total" setDimensions={setDimensions}>
+      </GraphCard>
+      <GraphCard name="Wipes Total" dimensions={dimensions} setDimensions={setDimensions} dud={false}>
         <BarChart
           dataset={progressionPerPhase}
           dimensions={dimensions}
           currentFightPhases={currentFightPhases}
           selection="wipesPerPhase"
-          tickajust={1}
+          tick={1}
         />
-      </Graphcard>
-      <Graphcard name="Tempo antes da prog" setDimensions={setDimensions}>
+      </GraphCard>
+      <GraphCard name="Tempo antes da prog" dimensions={dimensions} setDimensions={setDimensions} dud={false}>
         <BarChart
           dataset={progressionPerPhase}
           dimensions={dimensions}
           currentFightPhases={currentFightPhases}
           selection="progTime"
-          tickajust={2.77778e-7}
+          tick={2.77778e-7}
         />
-      </Graphcard>
-      <Graphcard name="Tempo Total" setDimensions={setDimensions}>
+      </GraphCard>
+      <GraphCard name="Tempo Total" dimensions={dimensions} setDimensions={setDimensions} dud={false}>
         <BarChart
           dataset={progressionPerPhase}
           dimensions={dimensions}
           currentFightPhases={currentFightPhases}
           selection="totalTime"
-          tickajust={2.77778e-7}
+          tick={2.77778e-7}
         />
-      </Graphcard>
-      <Graphcard name="Relação dos Pulls" setDimensions={setDimensions}>
-        <Table
-          tableColumns={tableColumns}
-          tableData={tableData}
-        />
-      </Graphcard>
+      </GraphCard>
     </div>
   );
 };
