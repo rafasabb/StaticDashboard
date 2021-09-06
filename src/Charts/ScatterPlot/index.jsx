@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import * as d3 from 'd3';
 
-import { currentPhaseLoc } from '../../Utils/utils';
+import { currentPhaseLoc, hexToRgbA } from '../../Utils/utils';
 
 export default (props) => {
   const {
@@ -41,7 +41,11 @@ export default (props) => {
         cy={yScale(d.fightPercent)}
         r={3}
         prop={d.kill ? 'yellow' : colorScale(d.lastPhase)}
-        fill={d.kill ? 'yellow' : colorScale(d.lastPhase)}
+        style={{
+          fill: hexToRgbA(colorScale(d.lastPhase), '0.75'),
+          strokeWidth: 1,
+          stroke: hexToRgbA(colorScale(d.lastPhase), '1'),
+        }}
       />
     </g>
   ));

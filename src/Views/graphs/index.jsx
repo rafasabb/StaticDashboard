@@ -7,9 +7,12 @@ import GraphCard from '../graphcard';
 import ScatterPlot from '../../Charts/ScatterPlot';
 import BarChart from '../../Charts/BarChart';
 import Table from '../../Charts/Table';
+import Image from '../image';
 
 export default (props) => {
   const {
+    language,
+    clearImg,
     fightOrder,
     progressionPerPhase,
     currentFightPhases,
@@ -21,30 +24,70 @@ export default (props) => {
   const [dimensions, setDimensions] = useState([100, 100]);
   return (
     <div className="flex flex-row flex-wrap flex-grow mt-2">
-      <GraphCard name="Pull total" dimensions={dimensions} setDimensions={setDimensions} dud>
+      <GraphCard
+        name={language.photo}
+        dimensions={dimensions}
+        setDimensions={setDimensions}
+        dud
+      >
+        {
+          (clearImg)
+            ? (
+              <Image
+                name="clear"
+                dimensions={dimensions}
+                clearImg={clearImg}
+              />
+            )
+            : <></>
+        }
+      </GraphCard>
+      <GraphCard
+        name={language.scatter}
+        dimensions={dimensions}
+        setDimensions={setDimensions}
+        dud
+      >
         <ScatterPlot
           dataset={fightOrder}
           dimensions={dimensions}
           currentFightPhases={currentFightPhases}
         />
       </GraphCard>
-      <GraphCard name="Mortes por mecanica" dimensions={dimensions} setDimensions={setDimensions} dud={false}>
+      <GraphCard
+        name={language.table1}
+        dimensions={dimensions}
+        setDimensions={setDimensions}
+        dud={false}
+      >
         <Table
+          language={language}
           tableColumns={deathsTableColumns}
           tableData={deathsTableData}
           pgSize={8}
           pagination={false}
         />
       </GraphCard>
-      <GraphCard name="Relação dos Dias" dimensions={dimensions} setDimensions={setDimensions} dud={false}>
+      <GraphCard
+        name={language.table2}
+        dimensions={dimensions}
+        setDimensions={setDimensions}
+        dud={false}
+      >
         <Table
+          language={language}
           tableColumns={fightTableColumns}
           tableData={fightTableData}
           pgSize={7}
           pagination
         />
       </GraphCard>
-      <GraphCard name="Wipes antes da prog" dimensions={dimensions} setDimensions={setDimensions} dud={false}>
+      <GraphCard
+        name={language.wipesBeforeProg}
+        dimensions={dimensions}
+        setDimensions={setDimensions}
+        dud={false}
+      >
         <BarChart
           dataset={progressionPerPhase}
           dimensions={dimensions}
@@ -53,7 +96,12 @@ export default (props) => {
           tick={1}
         />
       </GraphCard>
-      <GraphCard name="Wipes Total" dimensions={dimensions} setDimensions={setDimensions} dud={false}>
+      <GraphCard
+        name={language.wipesTotal}
+        dimensions={dimensions}
+        setDimensions={setDimensions}
+        dud={false}
+      >
         <BarChart
           dataset={progressionPerPhase}
           dimensions={dimensions}
@@ -62,7 +110,12 @@ export default (props) => {
           tick={1}
         />
       </GraphCard>
-      <GraphCard name="Tempo antes da prog" dimensions={dimensions} setDimensions={setDimensions} dud={false}>
+      <GraphCard
+        name={language.progTimePerPhase}
+        dimensions={dimensions}
+        setDimensions={setDimensions}
+        dud={false}
+      >
         <BarChart
           dataset={progressionPerPhase}
           dimensions={dimensions}
@@ -71,7 +124,12 @@ export default (props) => {
           tick={2.77778e-7}
         />
       </GraphCard>
-      <GraphCard name="Tempo Total" dimensions={dimensions} setDimensions={setDimensions} dud={false}>
+      <GraphCard
+        name={language.totalTimePerPhase}
+        dimensions={dimensions}
+        setDimensions={setDimensions}
+        dud={false}
+      >
         <BarChart
           dataset={progressionPerPhase}
           dimensions={dimensions}

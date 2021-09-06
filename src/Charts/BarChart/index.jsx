@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import * as d3 from 'd3';
 
-import { currentPhaseLoc } from '../../Utils/utils';
+import { currentPhaseLoc, hexToRgbA } from '../../Utils/utils';
 
 export default (props) => {
   const {
@@ -42,7 +42,11 @@ export default (props) => {
         y={yScale(d.name)}
         width={xScale(d[selection])}
         height={yScale.bandwidth()}
-        style={{ fill: colorScale(d.phase) }}
+        style={{
+          fill: hexToRgbA(colorScale(d.phase), '0.75'),
+          strokeWidth: 2,
+          stroke: hexToRgbA(colorScale(d.phase), '1'),
+        }}
       />
       <text
         className="value"

@@ -1,13 +1,13 @@
 import { currentPhaseLoc } from './utils';
 
-export const createFightColumns = (fightConstant) => {
+export const createFightColumns = (fightConstant, dateStr) => {
   if (!fightConstant) {
     return null;
   }
   let interCount = 1;
   const columns = [];
   const date = {
-    Header: 'Date',
+    Header: dateStr,
     accessor: 'date',
   };
 
@@ -47,10 +47,10 @@ export const createFightDataSource = (currentFightPhases, data) => {
   }).sort((a, b) => b.sDate - a.sDate);
 };
 
-export const createDeathColumns = () => {
+export const createDeathColumns = (nameStr) => {
   const columns = [];
   const date = {
-    Header: 'Nome',
+    Header: nameStr,
     accessor: 'name',
   };
   const total = {

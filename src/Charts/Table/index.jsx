@@ -5,7 +5,7 @@ import { useTable, usePagination } from 'react-table';
 
 export default (props) => {
   const {
-    tableColumns, tableData, pgSize, pagination,
+    tableColumns, tableData, pgSize, pagination, language,
   } = props;
   const [thisPageIndex, setThisPageIndex] = useState(0);
   const [thisPageSize, setThisPageSize] = useState(pgSize);
@@ -114,10 +114,10 @@ export default (props) => {
         {' '}
         {' '}
         <span className="bg-gray-300 text-gray-800 font-bold py-1 px-1">
-          Page
+          {language.page}
           {' '}
           <strong>
-            {`${pageIndex + 1} of ${pageOptions.length}`}
+            {`${pageIndex + 1} ${language.of} ${pageOptions.length}`}
           </strong>
           {' '}
         </span>
@@ -149,7 +149,7 @@ export default (props) => {
   );
   const table = useMemo(
     () => makeTable(tableInstance, thisPageSize),
-    [tableColumns, tableData, thisPageIndex, thisPageSize],
+    [tableColumns, tableData, thisPageIndex, thisPageSize, language],
   );
 
   return (

@@ -3,18 +3,25 @@ import React from 'react';
 
 import { formatHour } from '../../Utils/utils';
 import Statcard from '../statcard';
+import Icons from '../../Utils/icons';
 
 // gray red yellow green blue indigo purple pink
 export default (props) => {
-  const { data } = props;
+  const { data, language } = props;
   return (
     <div className="flex flex-wrap">
-      <Statcard title="Horas de Prog" data={formatHour(data.totalProgressionHours)} color="red" />
-      <Statcard title="Horas p/semana" data={formatHour(data.averageHoursPerWeek)} color="indigo" />
-      <Statcard title="Horas p/dia" data={formatHour(data.averageHoursPerDay)} color="purple" />
-      <Statcard title="Semanas de Prog" data={data.weeksOfProgression} color="yellow" />
-      <Statcard title="Dias de Raid" data={data.totalRaidDays} color="blue" />
-      <Statcard title="Dias Corridos" data={data.totalDaysToClear} color="green" />
+      <Statcard title={language.progTime} data={formatHour(data.totalProgressionHours)} color="red">
+        <Icons type="mdiHistory" size={2} color="#fff" />
+      </Statcard>
+      <Statcard title={language.progPerWeek} data={formatHour(data.averageHoursPerWeek)} color="indigo">
+        <Icons type="mdiClockTimeTwoOutline" size={2} color="#fff" />
+      </Statcard>
+      <Statcard title={language.raidDays} data={data.totalRaidDays} color="blue">
+        <Icons type="mdiCalendarBlank" size={2} color="#fff" />
+      </Statcard>
+      <Statcard title={language.progWeeks} data={data.weeksOfProgression} color="yellow">
+        <Icons type="mdiCalendarWeek" size={2} color="#fff" />
+      </Statcard>
     </div>
   );
 };
