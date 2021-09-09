@@ -10,6 +10,7 @@ export default (props) => {
   } = props;
   const [width, height] = dimensions;
   const [bars, setBars] = useState(null);
+  const [tickSize, setTickSize] = useState(6);
 
   const margin = {
     top: 0, right: 10, bottom: 20, left: 5,
@@ -49,12 +50,13 @@ export default (props) => {
         }}
       />
       <text
-        className="value"
+        className="font-bold"
         style={{ textAnchor: 'end' }}
-        dx="-2"
-        dy="1.3em"
+        dx="-5"
+        dy="1.6em"
         x={xScale(d[selection])}
         y={yScale(d.name)}
+        fill="#fff"
       >
         {d.name}
       </text>
@@ -62,6 +64,13 @@ export default (props) => {
   ));
 
   useEffect(() => {
+    if (width >= 500) {
+      setTickSize(8);
+    } else if (width < 500 && width >= 300) {
+      setTickSize(6);
+    } else {
+      setTickSize(5);
+    }
     setBars(createBars());
   }, [dataset, dimensions]);
 
@@ -69,10 +78,10 @@ export default (props) => {
     <svg width={width} height={height}>
       <g transform={`translate(${margin.left}, ${margin.top})`}>
         {
-          xScale.ticks().map((tickValue) => (
+          xScale.ticks(tickSize).map((tickValue) => (
             <g key={xScale(tickValue)} transform={`translate(${xScale(tickValue)},0)`}>
               <line y2={innerHeight} stroke="#C0C0BB" />
-              <text dy=".71em" style={{ textAnchor: 'middle', fill: '#C0C0BB' }} y={innerHeight + 3}>{Math.floor(tickValue * tick)}</text>
+              <text dy=".71em" style={{ textAnchor: 'middle', fill: '#C0C0BB' }} y={innerHeight + 3}>{(tickValue * tick).toFixed(1)}</text>
             </g>
           ))
         }

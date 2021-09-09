@@ -18,10 +18,6 @@ export default (props) => {
             <h5 className="font-bold uppercase text-gray-600">{title}</h5>
             <h3 className="font-bold text-3xl">
               {data}
-              {' '}
-              <span className={`text-${color}-500`}>
-                <i className="fas fa-caret-up" />
-              </span>
             </h3>
           </div>
         </div>
