@@ -20,6 +20,7 @@ import calcTime from './DataProcessing/calcTime';
 import calcProgressionPerPhase from './DataProcessing/calcProgressionPerPhase';
 import calcPhaseProg from './DataProcessing/calcPhaseProg';
 import calcFightOrder from './DataProcessing/calcFightOrder';
+import calcDeathsPerDay from './DataProcessing/calcDeathsPerDay';
 
 const getParams = () => {
   const { search } = window.location;
@@ -48,7 +49,7 @@ export default () => {
   // Base data
   const [fightData, setFightData] = useState(null);
   const [reportData, setReportData] = useState(null);
-  const [allDeathsData, setAllDeathsData] = useState(null);
+  const [deathsPerFightData, setDeathsPerFightData] = useState(null);
 
   // Processed data
   const language = useMemo(
@@ -68,6 +69,10 @@ export default () => {
   const fightOrder = useMemo(
     () => calcFightOrder(reportData, fightData), [fightData, reportData],
   );
+  const deathsDay = useMemo(
+    () => calcDeathsPerDay(reportData, fightData, deathsPerFightData),
+    [reportData, fightData, deathsPerFightData],
+  );
   const fightTableColumns = useMemo(
     () => createFightColumns(currentFightPhases, language.date), [progressionTotal, language],
   );
@@ -85,14 +90,15 @@ export default () => {
     csv(fightArray[1]).then((data) => {
       setReportData(data);
     });
-    csv(fightArray[2]).then((data) => {
-      setAllDeathsData(data);
+    csv(fightArray[3]).then((data) => {
+      setDeathsPerFightData(data.filter((o) => o.name !== ''));
     });
   };
 
   useEffect(() => {
     setFightData(null);
     setReportData(null);
+    setDeathsPerFightData(null);
     loadCSV(getFightLogs(currentFight));
   }, [currentFight]);
 
@@ -109,7 +115,7 @@ export default () => {
               && progressionPerPhase
               && fightTableColumns
               && fightTableData
-              && allDeathsData
+              && deathsDay
             )
               ? (
                 <Graphs
@@ -120,8 +126,8 @@ export default () => {
                   fightTableColumns={fightTableColumns}
                   fightTableData={fightTableData}
                   deathsTableColumns={deathsTableColumns}
-                  deathsTableData={allDeathsData.filter((o) => o.name !== '')}
                   currentFightPhases={currentFightPhases}
+                  deathsDay={deathsDay}
                 />
               ) : <></>
           }

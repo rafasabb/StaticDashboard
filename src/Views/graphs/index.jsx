@@ -1,8 +1,10 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 /* eslint-disable react/prop-types */
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 import GraphCard from '../graphcard';
+
+import { calculateCurrentDeathSelection } from '../../Utils/utils';
 
 import ScatterPlot from '../../Charts/ScatterPlot';
 import BarChart from '../../Charts/BarChart';
@@ -19,9 +21,20 @@ export default (props) => {
     fightTableColumns,
     fightTableData,
     deathsTableColumns,
-    deathsTableData,
+    deathsDay,
   } = props;
   const [dimensions, setDimensions] = useState([100, 100]);
+  const [range, setRange] = useState([0, deathsDay.length - 1]);
+  const [deathSelection, setDeathSelection] = useState([]);
+
+  useEffect(() => {
+    setDeathSelection(calculateCurrentDeathSelection(range, deathsDay));
+  }, [range, deathsDay]);
+
+  useEffect(() => {
+    setDeathSelection(calculateCurrentDeathSelection(range, deathsDay));
+  }, []);
+
   return (
     <div className="flex flex-row flex-wrap flex-grow mt-2">
       <GraphCard
@@ -63,9 +76,13 @@ export default (props) => {
         <Table
           language={language}
           tableColumns={deathsTableColumns}
-          tableData={deathsTableData}
-          pgSize={8}
+          tableData={deathSelection}
+          pgSize={7}
           pagination={false}
+          range
+          defaultRange={[0, deathsDay.length - 1]}
+          setRange={setRange}
+          deathsDay={deathsDay}
         />
       </GraphCard>
       <GraphCard
@@ -80,6 +97,7 @@ export default (props) => {
           tableData={fightTableData}
           pgSize={7}
           pagination
+          range={false}
         />
       </GraphCard>
       <GraphCard

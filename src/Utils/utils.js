@@ -6,11 +6,26 @@ import uwuImg from '../img/uwu-clear.png';
 export const getFightLogs = (current) => {
   switch (parseInt(current, 10)) {
     case 0:
-      return [UWUParses.fightCsvUrL, UWUParses.reportCsvUrl, UWUParses.allDeathsCsvUrl];
+      return [
+        UWUParses.fightCsvUrL,
+        UWUParses.reportCsvUrl,
+        UWUParses.allDeathsCsvUrl,
+        UWUParses.deathsPerFightUrl,
+      ];
     case 1:
-      return [UCOBParses.fightCsvUrL, UCOBParses.reportCsvUrl, UCOBParses.allDeathsCsvUrl];
+      return [
+        UCOBParses.fightCsvUrL,
+        UCOBParses.reportCsvUrl,
+        UCOBParses.allDeathsCsvUrl,
+        UCOBParses.deathsPerFightUrl,
+      ];
     case 2:
-      return [TEAParses.fightCsvUrL, TEAParses.reportCsvUrl, TEAParses.allDeathsCsvUrl];
+      return [
+        TEAParses.fightCsvUrL,
+        TEAParses.reportCsvUrl,
+        TEAParses.allDeathsCsvUrl,
+        TEAParses.deathsPerFightUrl,
+      ];
     default:
       return [null, null];
   }
@@ -123,4 +138,24 @@ export const hexToRgbA = (hex, opacity) => {
 export const calculateAspectRatioFit = (srcWidth, srcHeight, maxWidth, maxHeight) => {
   const ratio = Math.min(maxWidth / srcWidth, maxHeight / srcHeight);
   return { width: srcWidth * ratio, height: srcHeight * ratio };
+};
+
+export const calculateCurrentDeathSelection = (range, deaths) => {
+  if (!range || !deaths) {
+    return null;
+  }
+  const output = [];
+  // eslint-disable-next-line no-plusplus
+  for (let i = range[0]; i <= range[1]; i++) {
+    const current = deaths.find((e) => e.number === i);
+    current.list.forEach((element) => {
+      const exists = output.find((e) => e.name === element.name);
+      if (exists) {
+        exists.total = parseInt(exists.total, 10) + parseInt(element.total, 10);
+      } else {
+        output.push({ ...element });
+      }
+    });
+  }
+  return output.sort((a, b) => b.total - a.total);
 };

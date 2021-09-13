@@ -1,6 +1,6 @@
 const HtmlWebPackPlugin = require('html-webpack-plugin');
 const WebpackCdnPlugin = require('webpack-cdn-plugin');
-const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
+// const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 
 module.exports = {
   devtool: 'source-map',
@@ -33,15 +33,15 @@ module.exports = {
   resolve: {
     extensions: ['.js', '.jsx'],
   },
-  output: {
-    publicPath: '.',
-  },
+  // output: {
+  //   publicPath: '.',
+  // },
   plugins: [
     new HtmlWebPackPlugin({
       template: './src/index.html',
       filename: './index.html',
     }),
-    new BundleAnalyzerPlugin(),
+    // new BundleAnalyzerPlugin(),
     new WebpackCdnPlugin({
       modules: {
         react: [

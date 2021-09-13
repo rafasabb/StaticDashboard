@@ -29,7 +29,7 @@ export const createFightDataSource = (currentFightPhases, data) => {
   return data.reports.map((report) => {
     const returnObj = {};
     let interCount = 1;
-    returnObj.date = `${report.start.getDate()}/${report.start.getMonth()}/${report.start.getFullYear()}`;
+    returnObj.date = `${report.start.getDate()}/${report.start.getMonth() + 1}/${report.start.getFullYear()}`;
     returnObj.sDate = report.start;
     returnObj.code = report.code;
     // eslint-disable-next-line no-plusplus

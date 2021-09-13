@@ -2,10 +2,15 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import React, { useState, useMemo } from 'react';
 import { useTable, usePagination } from 'react-table';
+import Slider from 'rc-slider';
+import 'rc-slider/assets/index.css';
+
+const { createSliderWithTooltip } = Slider;
+const Range = createSliderWithTooltip(Slider.Range);
 
 export default (props) => {
   const {
-    tableColumns, tableData, pgSize, pagination, language,
+    tableColumns, tableData, pgSize, pagination, language, range, setRange, defaultRange, deathsDay,
   } = props;
   const [thisPageIndex, setThisPageIndex] = useState(0);
   const [thisPageSize, setThisPageSize] = useState(pgSize);
@@ -32,6 +37,24 @@ export default (props) => {
     }
     return (
       <div className="flex flex-col justify-between h-full">
+        {
+          range
+            ? (
+              <Range
+                tipFormatter={(e) => deathsDay.find((el) => el.number === e).date}
+                marks={
+                  {
+                    [`${defaultRange[1] - 4}`]: 'Last 5 days',
+                  }
+                }
+                min={defaultRange[0]}
+                max={defaultRange[1]}
+                onChange={setRange}
+                defaultValue={defaultRange}
+              />
+            )
+            : <></>
+        }
         <table className="w-full p-5 text-gray-700" {...getTableProps()}>
           <thead>
             {
